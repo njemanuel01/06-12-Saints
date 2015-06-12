@@ -20,7 +20,12 @@ class Location
   # name - string for the new name to be used
   #
   # Returns a new name in for the country in the countries table.
-  def update_location_name(name)
+  
+  def self.all_countries
+    CONNECTION.execute("SELECT 'country_name' FROM 'countries';")
+  end
+  
+  def update_location_names(name)
     CONNECTION.execute("UPDATE 'countries' SET country_name = ? WHERE id = ?;", name, @l_id)
   end
   
@@ -29,7 +34,7 @@ class Location
   # description - string value for the new description to be used
   #
   # Returns a new description for the country in the countries table.
-  def update_location_description(description)
+  def update_location_descriptions(description)
     CONNECTION.execute("UPDATE 'countries' SET country_description = ? WHERE id = ?;", description, @l_id)
   end
   

@@ -10,8 +10,8 @@ class Category
   # category - string value for the category
   #
   # Returns an integer for the category_id
-  def get_category_id(category)
-    result = CONNECTED.execute("SELECT id FROM categories WHERE category_name = ?;", category)
+  def get_category_ids(category)
+    result = CONNECTED.execute("SELECT 'id' FROM 'categories' WHERE category_name = ?;", category)
     result.first["id"]
   end
   
