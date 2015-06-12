@@ -3,12 +3,21 @@ def Saint
     @s_id = id
   end
   
+  def self.get_saints_by_category(category_id)
+    CONNECTED.execute("SELECT * FROM 'saints' WHERE category_id = ?;", category_id)
+  end
+  
+  def self.get_saints_by_country(country_id)
+    CONNECTED.execute("SELECT * FROM 'saints' WHERE country_id = ?;", country_id)
+  end
+  
   def get_info
     CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @s_id)
   end
   
   def get_field_value(field_value)
-    CONNECTION.execute("SELECT ? FROM 'saints' WHERE id = ?;", field_value, @s_id)
+    result = CONNECTION.execute("SELECT ? FROM 'saints' WHERE id = ?;", field_value, @s_id)
+    result.first[field_value]
   end
   
   def get_name
@@ -29,14 +38,6 @@ def Saint
   
   def get_country
     CONNECTED.execute("SELECT country_name FROM 'countries' WHERE id = ?;", get_field_value("country_id"))
-  end
-  
-  def self.get_saints_by_category(category_id)
-    CONNECTED.execute("SELECT * FROM 'saints' WHERE category_id = ?;", category_id)
-  end
-  
-  def self.get_saints_by_country(country_id)
-    CONNECTED.execute"SELECT * FROM 'saints' WHERE country_id = ?;", country_id)
   end
   
   def update_field_value(field_value, value)
