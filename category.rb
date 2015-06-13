@@ -5,6 +5,15 @@ class Category
     @c_id = id
   end
   
+  # Creates a new category row in the countries table.
+  #
+  # category_name - string for the country name
+  #
+  # Returns []
+  def self.add(category_name)
+    CONNECTION.execute("INSERT INTO categories (category_name) VALUES (?);", category_name)
+  end
+  
   # Gets a list of all the categories.
   #
   # Returns an array
