@@ -5,6 +5,13 @@ class Saint
     @s_id = id
   end
   
+  # Get a list of all the saints
+  #
+  # Returns an array
+  def self.all
+    CONNECTION.execute("SELECT * FROM saints;")
+  end
+  
   # Gets a list of saints with same category
   #
   # category_id - int value for a certain category type
@@ -46,7 +53,7 @@ class Saint
   end
   
   # date - string for the new date
-  def update_canonization_year(year)
+  def update_canonization_years(year)
     update_field_values("canonization_year", year)
   end
   
