@@ -11,8 +11,15 @@ class Country
   # country_description - string for the country description
   #
   # Returns []
-  def self.new_country(country_name, country_description)
-    CONNECTION.execute("INSERT INTO 'countries' (country_name, country_description) VALUES (?, ?);", country_name,country_description)
+  def self.add(country_name, country_description)
+    CONNECTION.execute("INSERT INTO countries (country_name, country_description) VALUES (?, ?);", country_name,country_description)
+  end
+  
+  # Get a list of all the countries
+  #
+  # Returns an array
+  def self.all
+    CONNECTION.execute("SELECT * FROM countries;")
   end
   
   # Updates the name of a countries location
@@ -20,12 +27,7 @@ class Country
   # name - string for the new name to be used
   #
   # Returns a new name in for the country in the countries table.
-  
-  def self.all_countries
-    CONNECTION.execute("SELECT 'country_name' FROM 'countries';")
-  end
-  
-  def update_location_names(name)
+  def update_names(name)
     CONNECTION.execute("UPDATE 'countries' SET country_name = ? WHERE id = ?;", name, @l_id)
   end
   
@@ -34,7 +36,7 @@ class Country
   # description - string value for the new description to be used
   #
   # Returns a new description for the country in the countries table.
-  def update_location_descriptions(description)
+  def update_descriptions(description)
     CONNECTION.execute("UPDATE 'countries' SET country_description = ? WHERE id = ?;", description, @l_id)
   end
   

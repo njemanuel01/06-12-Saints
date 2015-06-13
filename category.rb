@@ -5,14 +5,11 @@ class Category
     @c_id = id
   end
   
-  # Gets the category_id for a certain category in the categories table.
+  # Gets a list of all the categories.
   #
-  # category - string value for the category
-  #
-  # Returns an integer for the category_id
-  def get_category_ids(category)
-    result = CONNECTED.execute("SELECT 'id' FROM 'categories' WHERE category_name = ?;", category)
-    result.first["id"]
+  # Returns an array
+  def self.all
+    CONNECTION.execute("SELECT * FROM categories")
   end
   
 end
