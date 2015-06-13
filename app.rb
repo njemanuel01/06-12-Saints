@@ -34,7 +34,7 @@ while answer1 != 4
         puts "Here's a list of countries."
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{[:id]} - #{[:country_name]}"
+          puts "#{x["id"]} - #{x["country_name"]}"
         end
         
       elsif answer2 == 2
@@ -48,7 +48,7 @@ while answer1 != 4
         puts "What country would you like to update information for? (Please enter the number corresponding to your choice)"
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{[:id]} - #{[:country_name]}"
+          puts "#{x["id"]} - #{x["country_name"]}"
         end
         country_id = gets.chomp.to_i
         country = Country.new(country_id)
@@ -63,8 +63,10 @@ while answer1 != 4
             puts "What would you like to change the description of the country to?"
             description = gets.chomp
             country.update_descriptions(description)
+          elsif answer3 == 3
+            break
           else
-            puts "Invalid entry.  Please enter either 1 or 2."
+            puts "Invalid entry.  Please enter either 1, 2, or 3."
           end
         end
         
@@ -73,17 +75,21 @@ while answer1 != 4
         puts "Here's a list of countries."
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{[:id]} - #{[:country_name]}"
+          puts "#{x["id"]} - #{x["country_name"]}"
         end
         country_id = gets.chomp.to_i
         puts "Here's the list"
-        puts Saint.where_country(country_id)
+        saint_array = Saint.where_country(country_id)
+        saint_array.each do |x|
+          puts x["saint_name"]
+        end
         
       elsif answer2 == 5
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 5."
       end
+      answer3 = 0
     end
   
   # Loop for Saint categories  
@@ -97,7 +103,7 @@ while answer1 != 4
         puts "Here's a list of saint categories."
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{[:id]} - #{[:category_name]}"
+          puts "#{x["id"]} - #{x["category_name"]}"
         end
         
       elsif answer2 == 2
@@ -109,17 +115,21 @@ while answer1 != 4
         puts "What category would you like to see a list of saints for? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{[:id]} - #{[:category_name]}"
+          puts "#{x["id"]} - #{x["category_name"]}"
         end
         cat_id = gets.chomp.to_i
         puts "Here's the list"
-        puts Saint.where_category(cat_id)
+        saint_array = Saint.where_category(cat_id)
+        saint_array.each do|x|
+          puts x["saint_name"]
+        end
         
       elsif answer2 == 4
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 4."
       end
+      answer3 = 0
     end
   
   # Loop for individual Saints  
@@ -131,9 +141,9 @@ while answer1 != 4
       answer2 = gets.chomp.to_i
       if answer2 == 1
         puts "Here's a list of saints."
-        saints_array = Saint.all
-        saints_array.each do |x|
-          puts "#{[:id]} - #{[:saint_name]}"
+        saint_array = Saint.all
+        saint_array.each do |x|
+          puts "#{x["id"]} - #{x["saint_name"]}"
         end
         
       elsif answer2 == 2
@@ -146,24 +156,23 @@ while answer1 != 4
         puts "What country is this saint from? (Please enter the number corresponding to your choice)"
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{[:id]} - #{[:country_name]}"
+          puts "#{x["id"]} - #{x["country_name"]}"
         end
         country_id = gets.chomp.to_i
         puts "What category is this saint in? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{[:id]} - #{[:category_name]}"
+          puts "#{x["id"]} - #{x["category_name"]}"
         end
         cat_id = gets.chomp.to_i
         country = Country.new(country_id)
         country.new_saint(name, year, description, cat_id)
-      end
         
       elsif answer2 == 3
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
-        saints_array = Saint.all
-        saints_array.each do |x|
-          puts "#{[:id]} - #{[:saint_name]}"
+        saint_array = Saint.all
+        saint_array.each do |x|
+          puts "#{x["id"]} - #{x["saint_name"]}"
         end
         saint_id = gets.chomp.to_i
         saint = Saint.new(saint_id)
@@ -171,20 +180,20 @@ while answer1 != 4
         puts "Would you like to see this saint's 1-Description, 2-Category, 3-Country? (Please enter the number corresponding to your choice)"
         answer3 = gets.chomp.to_i
         if answer3 == 1
-          puts info_array.first[:description]
+          puts info_array.first["description"]
         elsif answer3 == 2
-          puts info_array.first[:category_id]
+          puts info_array.first["category_id"]
         elsif answer3 == 3
-          puts info_array.first[:country_id]
+          puts info_array.first["country_id"]
         else
           puts "Invalid entry.  Please enter a number from 1 to 3."
         end
         
       elsif answer2 == 4
         puts "What saint would you like to update information for? (Please enter the number corresponding to your choice)"
-        saints_array = Saint.all
-        saints_array.each do |x|
-          puts "#{[:id]} - #{[:saint_name]}"
+        saint_array = Saint.all
+        saint_array.each do |x|
+          puts "#{x["id"]} - #{x["saint_name"]}"
         end
         saint_id = gets.chomp.to_i
         saint = Saint.new(saint_id)
@@ -193,31 +202,31 @@ while answer1 != 4
         if answer3 == 1
           puts "What would you like to update the name to?"
           name = gets.chomp
-          Saint.update_names(name)
+          saint.update_names(name)
         elsif answer3 == 2
           puts "What would you like to update the canonization yeaer to?"
           year = get.chomp.to_i
-          Saint.update_canonization_years(year)
+          saint.update_canonization_years(year)
         elsif answer3 == 3
           puts "What would you like to update the description to?"
           description = gets.chomp
-          Saint.update_desciprtions(description)
+          saint.update_descriptions(description)
         elsif answer3 == 4
           puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
           categories_array = Category.all
           categories_array.each do |x|
-            puts "#{[:id]} - #{[:category_name]}"
+            puts "#{x["id"]} - #{x["category_name"]}"
           end
           cat_id = gets.chomp.to_i
-          Saint.update_categories(cat_id)
+          saint.update_categories(cat_id)
         elsif answer3 == 5
           puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
           countries_array = Country.all
           countries_array.each do|x|
-            puts "#{[:id]} - #{[:country_name]}"
+            puts "#{x["id"]} - #{x["country_name"]}"
           end
           country_id = gets.chomp.to_i
-          Saint.update_countries(country_id)
+          saint.update_countries(country_id)
         else
           "Invlaid entry.  Please enter a number from 1 to 5."
         end
@@ -227,6 +236,7 @@ while answer1 != 4
       else
         puts "Invalid entry.  Please enter a number from 1 to 5."
       end
+      answer3 = 0
     end
       
   elsif answer1 == 4
@@ -236,7 +246,6 @@ while answer1 != 4
     puts "Invalid entry.  Please enter a number from 1 to 4."
   end
   answer2 = 0
-  answer3 = 0
 end
     
   

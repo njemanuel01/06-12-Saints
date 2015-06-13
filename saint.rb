@@ -18,7 +18,7 @@ class Saint
   #
   # Returns an array of saints that match the given category_id
   def self.where_category(category_id)
-    CONNECTION.execute("SELECT * FROM 'saints' WHERE category_id = ?;", category_id)
+    CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
   end
   
   # Gets a list of saints for a certain country
@@ -27,7 +27,7 @@ class Saint
   #
   # Returns an array of saints that match the given country_id
   def self.where_country(country_id)
-    CONNECTION.execute("SELECT * FROM 'saints' WHERE country_id = ?;", country_id)
+    CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
   end
   
   # Gets a full set of information on a saint

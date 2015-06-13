@@ -56,7 +56,7 @@ class Country
   # 
   # Returns a new saint record created in the saints table.
   def new_saint(name, canonization_date, description, category_id)
-    CONNECTION.execute("INSERT INTO 'saints' (saint_name, canonization_date, description, category_id, country_id) 
+    CONNECTION.execute("INSERT INTO 'saints' (saint_name, canonization_year, description, category_id, country_id) 
     VALUES (?, ?, ?, ?, ?);", name, canonization_date, description, category_id, @l_id)
   end
    
