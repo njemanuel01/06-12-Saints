@@ -22,6 +22,13 @@ class Category
     CONNECTION.execute("SELECT * FROM categories")
   end
   
+  # Gets a full set of information on a category
+  #
+  # Returns an array with that information
+  def get_infos
+    CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @c_id)
+  end
+  
   # Deletes a category from the countries tables
   #
   # Returns a string

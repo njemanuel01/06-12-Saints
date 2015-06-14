@@ -48,28 +48,43 @@ class Saint
   end
   
   # name - string for the new name
+  #
+  # Returns a string
   def update_names(name)
     update_field_values("saint_name", name)
+    "Name updated."
   end
   
   # date - string for the new date
+  #
+  # Returns a string
   def update_canonization_years(year)
     update_field_values("canonization_year", year)
+    "Year updated."
   end
   
   # description - string for the new description
+  #
+  # Returns a string.
   def update_descriptions(description)
     update_field_values("description", description)
+    "Description updated."
   end
   
   # id - int for the new id 
+  #
+  # Returns a string.
   def update_category_ids(id)
     update_field_values("category_id", id)
+    "Category updated."
   end
   
   # id - int for the new id
+  #
+  # Returns a string.
   def update_country_ids(id)
     update_field_values("country_id", id)
+    "Country updated."
   end
   
   # Deletes a saint from the saints table

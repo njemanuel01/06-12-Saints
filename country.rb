@@ -23,6 +23,13 @@ class Country
     CONNECTION.execute("SELECT * FROM countries;")
   end
   
+  # Gets a full set of information on a country
+  #
+  # Returns an array with that information
+  def get_infos
+    CONNECTION.execute("SELECT * FROM 'countries' WHERE id = ?;", @l_id)
+  end
+  
   # Updates the name of a countries location
   #
   # name - string for the new name to be used

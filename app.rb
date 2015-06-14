@@ -261,13 +261,20 @@ while answer1 != 4
           if answer3 == 1
             puts info_array.first["description"]
           elsif answer3 == 2
-            puts info_array.first["category_id"]
+            x = info_array.first["category_id"]
+            category = Category.new(x)
+            info_array = category.get_infos
+            puts info_array.first["category_name"]
           elsif answer3 == 3
-            puts info_array.first["country_id"]
+            x = info_array.first["country_id"]
+            country = Country.new(x)
+            info_array = country.get_infos
+            puts info_array.first["country_name"]
           elsif answer3 == 4
           else
             puts "Invalid entry.  Please enter a number from 1 to 4."
           end
+          info_array = saint.get_infos
         end
         
       elsif answer2 == 4
@@ -289,15 +296,15 @@ while answer1 != 4
           if answer3 == 1
             puts "What would you like to update the name to?"
             name = gets.chomp
-            saint.update_names(name)
+            puts saint.update_names(name)
           elsif answer3 == 2
-            puts "What would you like to update the canonization yeaer to?"
-            year = get.chomp.to_i
-            saint.update_canonization_years(year)
+            puts "What would you like to update the canonization year to?"
+            year = gets.chomp.to_i
+            puts saint.update_canonization_years(year)
           elsif answer3 == 3
             puts "What would you like to update the description to?"
             description = gets.chomp
-            saint.update_descriptions(description)
+            puts saint.update_descriptions(description)
           elsif answer3 == 4
             puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
             categories_array = Category.all
@@ -310,7 +317,7 @@ while answer1 != 4
               puts "Invalid entry. Please enter one of these numbers #{count_array}."
               cat_id = gets.chomp.to_i
             end
-            saint.update_categories(cat_id)
+            puts saint.update_category_ids(cat_id)
           elsif answer3 == 5
             puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
             countries_array = Country.all
@@ -323,7 +330,7 @@ while answer1 != 4
               puts "Invalid entry. Please enter one of these numbers #{count_array}."
               country_id = gets.chomp.to_i
             end
-            saint.update_countries(country_id)
+            puts saint.update_country_ids(country_id)
           elsif answer3 == 6
             break
           else
