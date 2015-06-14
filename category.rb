@@ -9,9 +9,10 @@ class Category
   #
   # category_name - string for the country name
   #
-  # Returns []
+  # Returns a string.
   def self.add(category_name)
     CONNECTION.execute("INSERT INTO categories (category_name) VALUES (?);", category_name)
+    "#{category_name} added."
   end
   
   # Gets a list of all the categories.
@@ -19,6 +20,14 @@ class Category
   # Returns an array
   def self.all
     CONNECTION.execute("SELECT * FROM categories")
+  end
+  
+  # Deletes a category from the countries tables
+  #
+  # Returns a string
+  def delete
+    CONNECTION.execute("DELETE FROM 'categories' WHERE id = ?;", @c_id)
+    "Category Deleted"
   end
   
 end

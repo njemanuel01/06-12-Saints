@@ -10,9 +10,10 @@ class Country
   # country_name - string for the country name
   # country_description - string for the country description
   #
-  # Returns []
+  # Returns a string.
   def self.add(country_name, country_description)
     CONNECTION.execute("INSERT INTO countries (country_name, country_description) VALUES (?, ?);", country_name,country_description)
+    "#{country_name} added."
   end
   
   # Get a list of all the countries
@@ -42,9 +43,10 @@ class Country
   
   # Deletes a country from the countries tables
   #
-  # Returns a ??
-  def delete_location
+  # Returns a string
+  def delete
     CONNECTION.execute("DELETE FROM 'countries' WHERE id = ?;", @l_id)
+    "Country Deleted"
   end
   
   # Creates a new saint for the country

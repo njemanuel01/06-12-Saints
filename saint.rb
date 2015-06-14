@@ -73,8 +73,11 @@ class Saint
   end
   
   # Deletes a saint from the saints table
-  def delete_saints
+  #
+  # Returns a string
+  def delete
     CONNECTED.execute("DELETE FROM 'saints' WHERE id = ?;", @s_id)
+    "Saint deleted."
   end
     
 end

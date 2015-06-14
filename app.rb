@@ -25,7 +25,7 @@ while answer1 != 4
   
   # Loop for Saint countries
   if answer1 == 1
-    country_array = ['1-See a list of countries in the database', '2-Add a country', '3-Update information for a country', '4-See a list of saints from a country', '5-Exit Countries']
+    country_array = ['1-See a list of countries in the database', '2-Add a country', '3-Update information for a country', '4-See a list of saints from a country', '5-Delete a country','6-Exit Countries']
     while answer2 != 5
       puts "What would you like to do in Saint Countries? (Please enter the number corresponding to your choice)"
       puts country_array
@@ -42,7 +42,7 @@ while answer1 != 4
         name = gets.chomp
         puts "Please write a short description for this country."
         description = gets.chomp
-        Country.add(name, description)
+        puts Country.add(name, description)
         
       elsif answer2 == 3
         puts "What country would you like to update information for? (Please enter the number corresponding to your choice)"
@@ -85,6 +85,19 @@ while answer1 != 4
         end
         
       elsif answer2 == 5
+        puts "What country would you like to delete? (Please enter the number corresponding to your choice)"
+        countries_array.each do|x|
+          puts "#{x["id"]} - #{x["country_name"]}"
+        end
+        country_id = gets.chomp.to_i
+        if Saint.where_country(country_id) == []
+          country = Country.new(country_id)
+          puts country.delete
+        else
+          puts "The country has saints associated with it, it cannot be deleted."
+        end
+        
+      elsif answer2 == 6
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 5."
@@ -94,7 +107,7 @@ while answer1 != 4
   
   # Loop for Saint categories  
   elsif answer1 == 2
-    category_array = ['1-See a list of saint categories', '2-Add a saint category', '3-See a list of saints in a category', '4-Exit Categories']
+    category_array = ['1-See a list of saint categories', '2-Add a saint category', '3-See a list of saints in a category', '4-Delete a category','5-Exit Categories']
     while answer2 !=4
       puts "What would you like to do in Saint Categories? (Please enter the number corresponding to your choice)"
       puts category_array
@@ -109,7 +122,7 @@ while answer1 != 4
       elsif answer2 == 2
         puts "What is the name of the category you would like to add?"
         cat = gets.chomp
-        Category.add(cat)
+        puts Category.add(cat)
         
       elsif answer2 == 3
         puts "What category would you like to see a list of saints for? (Please enter the number corresponding to your choice)"
@@ -125,6 +138,20 @@ while answer1 != 4
         end
         
       elsif answer2 == 4
+        puts "What category would you like to delete? (Please enter the number corresponding to your choice)"
+        categories_array = Category.all
+        categories_array.each do |x|
+          puts "#{x["id"]} - #{x["category_name"]}"
+        end
+        cat_id = gets.chomp.to_i
+        if Saint.where_category(cat_id) == []
+          category = Category.new(cat_id)
+          puts category.delete
+        else
+          puts "The category has saints associated with it, it cannot be deleted."
+        end
+        
+      elsif answer2 == 5
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 4."
@@ -134,7 +161,7 @@ while answer1 != 4
   
   # Loop for individual Saints  
   elsif answer1 == 3
-    saints_array = ['1-See a list of saints', '2-Add a saint', '3-See information on a particular saint', '4-Update information on a particular saint', '5-Exit Saints']
+    saints_array = ['1-See a list of saints', '2-Add a saint', '3-See information on a particular saint', '4-Update information on a particular saint', '5-Delete a saint', '6-Exit Saints']
     while answer2 !=5
       puts "What would you like to do in Individual Saints? (Please enter the number corresponding to your choice)"
       puts saints_array
@@ -232,6 +259,16 @@ while answer1 != 4
         end
           
       elsif answer2 == 5
+        puts "What saint would you like to delete? (Please enter the number corresponding to your choice)"
+        saint_array = Saint.all
+        saint_array.each do |x|
+          puts "#{x["id"]} - #{x["saint_name"]}"
+        end
+        saint_id = gets.chomp.to_i
+        saint = Saint.new(saint_id)
+        puts saint.delete
+        
+      elsif answer2 == 6
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 5."
