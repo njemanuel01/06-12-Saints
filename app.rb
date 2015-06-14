@@ -96,12 +96,16 @@ while answer1 != 4
         end
         
       elsif answer2 == 5
-        puts "What country would you like to delete? (Please enter the number corresponding to your choice)"
-        countries_array.each do|x|
+        puts "What country would you like to delete, or 0-Exit? (Please enter the number corresponding to your choice)"
+        countries_array = Country.all
+        countries_array.each do |x|
           puts "#{x["id"]} - #{x["country_name"]}"
           count_array << x["id"]
         end
         country_id = gets.chomp.to_i
+        if country_id == 0
+          break
+        end
         while count_array.include?(country_id) == false
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
@@ -125,7 +129,7 @@ while answer1 != 4
   # Loop for Saint categories  
   elsif answer1 == 2
     category_array = ['1-See a list of saint categories', '2-Add a saint category', '3-See a list of saints in a category', '4-Delete a category','5-Exit Categories']
-    while answer2 !=4
+    while answer2 != 5
       puts "What would you like to do in Saint Categories? (Please enter the number corresponding to your choice)"
       puts category_array
       answer2 = gets.chomp.to_i
@@ -161,13 +165,16 @@ while answer1 != 4
         end
         
       elsif answer2 == 4
-        puts "What category would you like to delete? (Please enter the number corresponding to your choice)"
+        puts "What category would you like to delete or 0-Exit? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
           puts "#{x["id"]} - #{x["category_name"]}"
           count_array << x["id"]
         end
         cat_id = gets.chomp.to_i
+        if cat_id == 0
+          break
+        end
         while count_array.include?(cat_id) == false
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
@@ -191,7 +198,7 @@ while answer1 != 4
   # Loop for individual Saints  
   elsif answer1 == 3
     saints_array = ['1-See a list of saints', '2-Add a saint', '3-See information on a particular saint', '4-Update information on a particular saint', '5-Delete a saint', '6-Exit Saints']
-    while answer2 !=5
+    while answer2 != 6
       puts "What would you like to do in Individual Saints? (Please enter the number corresponding to your choice)"
       puts saints_array
       answer2 = gets.chomp.to_i
@@ -205,7 +212,7 @@ while answer1 != 4
       elsif answer2 == 2
         puts "What is the name of the saint you would like to add?"
         name = gets.chomp
-        puts "What year was this saint canonzied in (if known)?"
+        puts "What year was this saint canonzied or beautified in (if known)?"
         year = gets.chomp.to_i
         puts "Please write a short description of this saint."
         description = gets.chomp
@@ -325,13 +332,16 @@ while answer1 != 4
         end
           
       elsif answer2 == 5
-        puts "What saint would you like to delete? (Please enter the number corresponding to your choice)"
+        puts "What saint would you like to delete, or 0-Exit? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
           puts "#{x["id"]} - #{x["saint_name"]}"
           count_array << x["id"]
         end
         saint_id = gets.chomp.to_i
+        if saint_id == 0
+          break
+        end
         while count_array.include?(saint_id) == false
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           saint_id = gets.chomp.to_i
