@@ -7,7 +7,7 @@ CONNECTION = SQLite3::Database.new("saints.db")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'countries' (id INTEGER PRIMARY KEY, country_name TEXT UNIQUE NOT NULL, country_description TEXT NOT NULL)")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'categories' (id INTEGER PRIMARY KEY, category_name TEXT UNIQUE NOT NULL)")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'saints' (id INTEGER PRIMARY KEY, saint_name TEXT NOT NULL, 
-canonization_year INTEGER, description TEXT NOT NULL, category_id INTEGER FOREIGN KEY, country_id INTEGER FOREIGN KEY)")
+canonization_year INTEGER, description TEXT NOT NULL, category_id INTEGER, country_id INTEGER)")
 
 CONNECTION.results_as_hash = true
 
@@ -27,7 +27,7 @@ while answer1 != 4
   # Loop for Saint countries
   if answer1 == 1
     country_array = ['1-See a list of countries in the database', '2-Add a country', '3-Update information for a country', '4-See a list of saints from a country', '5-Delete a country','6-Exit Countries']
-    while answer2 != 5
+    while answer2 != 6
       puts "What would you like to do in Saint Countries? (Please enter the number corresponding to your choice)"
       puts country_array
       answer2 = gets.chomp.to_i
@@ -213,8 +213,13 @@ while answer1 != 4
         countries_array = Country.all
         countries_array.each do|x|
           puts "#{x["id"]} - #{x["country_name"]}"
+          count_array << x["id"]
         end
         country_id = gets.chomp.to_i
+        while count_array.include?(country_id) == false
+          puts "Invalid entry. Please enter one of these numbers #{count_array}."
+          country_id = gets.chomp.to_i
+        end
         puts "What category is this saint in? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|

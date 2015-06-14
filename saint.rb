@@ -76,7 +76,7 @@ class Saint
   #
   # Returns a string
   def delete
-    CONNECTED.execute("DELETE FROM 'saints' WHERE id = ?;", @s_id)
+    CONNECTION.execute("DELETE FROM 'saints' WHERE id = ?;", @s_id)
     "Saint deleted."
   end
     
