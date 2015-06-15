@@ -3,6 +3,7 @@ require_relative "country.rb"
 require_relative "category.rb"
 require_relative "saint.rb"
 require_relative "user.rb"
+require_relative "change.rb"
 
 CONNECTION = SQLite3::Database.new("saints.db")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'countries' (id INTEGER PRIMARY KEY, country_name TEXT UNIQUE NOT NULL, country_description TEXT NOT NULL)")
@@ -16,7 +17,7 @@ CONNECTION.results_as_hash = true
 
 #--------------------------------------------------------------------------------------------
 answer_array = ['Y', 'y', 'N', 'n']
-initial_array = ['1-Saint Countries', '2-Saint Categories', '3-Individual Saints', '4-Quit']
+initial_array = ['1-Saint Countries', '2-Saint Categories', '3-Individual Saints', '4-User Changes', '5-Quit']
 answer1 = 0
 answer2 = 0
 answer3 = 0
@@ -103,7 +104,7 @@ while answer1 != 4
             description = gets.chomp
             puts country.update_descriptions(description)
             info_array = country.get_infos
-            name = info_array.first["name"]
+            name = info_array.first["country_name"]
             puts user.add_change("#{name}'s description updated in countries.")
           elsif answer3 == 3
             break
@@ -149,7 +150,7 @@ while answer1 != 4
         if Saint.where_country(country_id) == []
           country = Country.new(country_id)
           info_array = country.get_infos
-          name = info_array.first["name"]
+          name = info_array.first["country_name"]
           puts country.delete
           puts user.add_change("#{name} deleted from countries.")
         else
@@ -221,7 +222,7 @@ while answer1 != 4
         if Saint.where_category(cat_id) == []
           category = Category.new(cat_id)
           info_array = category.get_infos
-          name = info_array.first["name"]
+          name = info_array.first["category_name"]
           puts category.delete
           puts user.add_change("#{name} deleted from categories.")
         else
@@ -353,14 +354,14 @@ while answer1 != 4
             year = gets.chomp.to_i
             puts saint.update_canonization_years(year)
             info_array = saint.get_infos
-            name = info_array.first["name"]
+            name = info_array.first["saint_name"]
             puts user.add_change("#{name}'s canonization year updated in saints.")
           elsif answer3 == 3
             puts "What would you like to update the description to?"
             description = gets.chomp
             puts saint.update_descriptions(description)
             info_array = saint.get_infos
-            name = info_array.first["name"]
+            name = info_array.first["saint_name"]
             puts user.add_change("#{name}'s description updated in saints.")
           elsif answer3 == 4
             puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
@@ -376,7 +377,7 @@ while answer1 != 4
             end
             puts saint.update_category_ids(cat_id)
             info_array = saint.get_infos
-            name = info_array.first["name"]
+            name = info_array.first["saint_name"]
             puts user.add_change("#{name}'s category updated in saints.")
           elsif answer3 == 5
             puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
@@ -392,7 +393,7 @@ while answer1 != 4
             end
             puts saint.update_country_ids(country_id)
             info_array = saint.get_infos
-            name = info_array.first["name"]
+            name = info_array.first["saint_name"]
             puts user.add_change("#{name}'s country updated in saints.")
           elsif answer3 == 6
             break
@@ -418,7 +419,7 @@ while answer1 != 4
         end
         saint = Saint.new(saint_id)
         info_array = saint.get_infos
-        name = info_array.first["name"]
+        name = info_array.first["saint_name"]
         puts saint.delete
         puts user.add_change("#{name} deleted from saints.")
         
@@ -431,8 +432,31 @@ while answer1 != 4
       answer3 = 0
       count_array = []
     end
-      
+    
   elsif answer1 == 4
+    while answer2 != 3
+      puts "Would you like to see a list of 1-All changes, 2-Changes you have made, 3-Exit? (Please enter the number corresponding to your choice)"
+      answer2 = gets.chomp.to_i
+      if answer2 == 1
+        puts "Here's a list of all changes."
+        change_array = Change.all
+        change_array.each do |x|
+          puts "#{x["id"]} - #{x["change_description"]}"
+        end   
+      elsif answer2 == 2
+        puts "Here's a list of your changes."
+        change_array = Change.where_user(user_id)
+        change_array.each do |x|
+          puts "#{x['id']} - #{x['change_description']}"
+        end  
+      elsif answer2 == 3
+        break
+      else
+        puts "Invalid entry.  Please enter a number from 1 to 3."
+      end
+    end
+    
+  elsif answer1 == 5
     break
     
   else
