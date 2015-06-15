@@ -7,7 +7,7 @@ class Saint
   
   # Get a list of all the saints
   #
-  # Returns an array
+  # Returns an Array
   def self.all
     CONNECTION.execute("SELECT * FROM saints;")
   end
@@ -16,23 +16,43 @@ class Saint
   #
   # category_id - int value for a certain category type
   #
-  # Returns an array of saints that match the given category_id
+  # Returns an Array of saints that match the given category_id
   def self.where_category(category_id)
     CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
+  end
+  
+  # Gets a list of saints with a particular keyword in the description.
+  #
+  # keyword - string value
+  #
+  # Return an Array.
+  def self.where_keyword(keyword)
+    array = self.all
+    array.each do |x|
+      string_array = x[description].split
+      if string_array.include?(keyword || keyword.capitalize)
+        saint_array.push("#{x["id"]}-#{x["name"]}")
+      end
+    end
+    if saint_array == []
+      "No saints with that keyword in their description."
+    else
+      saint_array
+    end
   end
   
   # Gets a list of saints for a certain country
   # 
   # country_id - int value for a certain country
   #
-  # Returns an array of saints that match the given country_id
+  # Returns an Array of saints that match the given country_id
   def self.where_country(country_id)
     CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
   end
   
   # Gets a full set of information on a saint
   #
-  # Returns an array with that information
+  # Returns an Array with that information
   def get_infos
     CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @s_id)
   end

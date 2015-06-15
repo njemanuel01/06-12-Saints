@@ -64,11 +64,11 @@ while answer1 != 4
           if answer3 == 1
             puts "What would you like to change the name of the country to?"
             name = gets.chomp
-            country.update_names(name)
+            puts country.update_names(name)
           elsif answer3 == 2
             puts "What would you like to change the description of the country to?"
             description = gets.chomp
-            country.update_descriptions(description)
+            puts country.update_descriptions(description)
           elsif answer3 == 3
             break
           else
@@ -238,7 +238,7 @@ while answer1 != 4
           cat_id = gets.chomp.to_i
         end
         country = Country.new(country_id)
-        country.new_saint(name, year, description, cat_id)
+        puts country.new_saint(name, year, description, cat_id)
         
       elsif answer2 == 3
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
