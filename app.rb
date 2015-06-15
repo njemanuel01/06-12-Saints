@@ -53,7 +53,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         country_id = gets.chomp.to_i
-        while count_array.include?(country_id) == false
+        while !count_array.include?(country_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
         end
@@ -85,7 +85,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         country_id = gets.chomp.to_i
-        while count_array.include?(country_id) == false
+        while !count_array.include?(country_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
         end
@@ -106,7 +106,7 @@ while answer1 != 4
         if country_id == 0
           break
         end
-        while count_array.include?(country_id) == false
+        while !count_array.include?(country_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
         end
@@ -153,11 +153,10 @@ while answer1 != 4
           count_array << x["id"]
         end
         cat_id = gets.chomp.to_i
-        while count_array.include?(cat_id) == false
+        while !count_array.include?(cat_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
         end
-        cat_id = gets.chomp.to_i
         puts "Here's the list"
         saint_array = Saint.where_category(cat_id)
         saint_array.each do|x|
@@ -175,7 +174,7 @@ while answer1 != 4
         if cat_id == 0
           break
         end
-        while count_array.include?(cat_id) == false
+        while !count_array.include?(cat_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
         end
@@ -223,7 +222,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         country_id = gets.chomp.to_i
-        while count_array.include?(country_id) == false
+        while !count_array.include?(country_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
         end
@@ -234,7 +233,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         cat_id = gets.chomp.to_i
-        while count_array.include?(cat_id) == false
+        while !count_array.include?(cat_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
         end
@@ -249,7 +248,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         saint_id = gets.chomp.to_i
-        while count_array.include?(saint_id) == false
+        while !count_array.include?(saint_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           saint_id = gets.chomp.to_i
         end
@@ -285,7 +284,7 @@ while answer1 != 4
           count_array << x["id"]
         end
         saint_id = gets.chomp.to_i
-        while count_array.include?(saint_id) == false
+        while !count_array.include?(saint_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           saint_id = gets.chomp.to_i
         end
@@ -313,7 +312,7 @@ while answer1 != 4
               count_array << x["id"]
             end
             cat_id = gets.chomp.to_i
-            while count_array.include?(cat_id) == false
+            while !count_array.include?(cat_id)
               puts "Invalid entry. Please enter one of these numbers #{count_array}."
               cat_id = gets.chomp.to_i
             end
@@ -326,7 +325,7 @@ while answer1 != 4
               count_array << x["id"]
             end
             country_id = gets.chomp.to_i
-            while count_array.include?(country_id) == false
+            while !count_array.include?(country_id)
               puts "Invalid entry. Please enter one of these numbers #{count_array}."
               country_id = gets.chomp.to_i
             end
@@ -349,7 +348,7 @@ while answer1 != 4
         if saint_id == 0
           break
         end
-        while count_array.include?(saint_id) == false
+        while !count_array.include?(saint_id)
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           saint_id = gets.chomp.to_i
         end
