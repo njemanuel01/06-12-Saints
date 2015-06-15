@@ -25,7 +25,7 @@ class Country
   
   # Gets a full set of information on a country
   #
-  # Returns an array with that information
+  # Returns an Array with that information
   def get_infos
     CONNECTION.execute("SELECT * FROM 'countries' WHERE id = ?;", @l_id)
   end
