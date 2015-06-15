@@ -196,7 +196,7 @@ while answer1 != 4
   
   # Loop for individual Saints  
   elsif answer1 == 3
-    saints_array = ['1-See a list of saints', '2-Add a saint', '3-See information on a particular saint', '4-Update information on a particular saint', '5-Delete a saint', '6-Exit Saints']
+    saints_array = ['1-See a list of saints', '2-See a list of saints with a particular keyword in their description', '3-Add a saint', '4-See information on a particular saint', '5-Update information on a particular saint', '6-Delete a saint', '7-Exit Saints']
     while answer2 != 6
       puts "What would you like to do in Individual Saints? (Please enter the number corresponding to your choice)"
       puts saints_array
@@ -208,7 +208,14 @@ while answer1 != 4
           puts "#{x["id"]} - #{x["saint_name"]}"
         end
         
-      elsif answer2 == 2
+      elsif answer2 ==2
+        puts "What is the keyword you woudl like to search by? (please enter in all lowercase characters)"
+        keyword = gets.chomp
+        puts "Here's the list of saints with '#{keyword}' in their description."
+        puts Saint.where_keyword(keyword)
+        
+        
+      elsif answer2 == 3
         puts "What is the name of the saint you would like to add?"
         name = gets.chomp
         puts "What year was this saint canonzied or beautified in (if known)?"
@@ -240,7 +247,7 @@ while answer1 != 4
         country = Country.new(country_id)
         puts country.new_saint(name, year, description, cat_id)
         
-      elsif answer2 == 3
+      elsif answer2 == 4
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
@@ -276,7 +283,7 @@ while answer1 != 4
           info_array = saint.get_infos
         end
         
-      elsif answer2 == 4
+      elsif answer2 == 5
         puts "What saint would you like to update information for? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
@@ -337,7 +344,7 @@ while answer1 != 4
           end
         end
           
-      elsif answer2 == 5
+      elsif answer2 == 6
         puts "What saint would you like to delete, or 0-Exit? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
@@ -355,7 +362,7 @@ while answer1 != 4
         saint = Saint.new(saint_id)
         puts saint.delete
         
-      elsif answer2 == 6
+      elsif answer2 == 7
         break
       else
         puts "Invalid entry.  Please enter a number from 1 to 5."

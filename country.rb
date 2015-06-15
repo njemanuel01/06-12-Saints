@@ -18,7 +18,7 @@ class Country
   
   # Get a list of all the countries
   #
-  # Returns an array
+  # Returns an Array
   def self.all
     CONNECTION.execute("SELECT * FROM countries;")
   end
@@ -34,18 +34,20 @@ class Country
   #
   # name - string for the new name to be used
   #
-  # Returns a new name in for the country in the countries table.
+  # Returns a string.
   def update_names(name)
     CONNECTION.execute("UPDATE 'countries' SET country_name = ? WHERE id = ?;", name, @l_id)
+    "Name updated."
   end
   
   # Updates the description of a country
   #
   # description - string value for the new description to be used
   #
-  # Returns a new description for the country in the countries table.
+  # Returns a string.
   def update_descriptions(description)
     CONNECTION.execute("UPDATE 'countries' SET country_description = ? WHERE id = ?;", description, @l_id)
+    "Description updated."
   end
   
   # Deletes a country from the countries tables
@@ -63,10 +65,11 @@ class Country
   # description - string description of the saint
   # category_id - int value for the category a saint is in
   # 
-  # Returns a new saint record created in the saints table.
+  # Returns a string.
   def new_saint(name, canonization_date, description, category_id)
     CONNECTION.execute("INSERT INTO 'saints' (saint_name, canonization_year, description, category_id, country_id) 
     VALUES (?, ?, ?, ?, ?);", name, canonization_date, description, category_id, @l_id)
+    "Saint added."
   end
    
 end

@@ -17,14 +17,14 @@ class Category
   
   # Gets a list of all the categories.
   #
-  # Returns an array
+  # Returns an Array
   def self.all
     CONNECTION.execute("SELECT * FROM categories")
   end
   
   # Gets a full set of information on a category
   #
-  # Returns an array with that information
+  # Returns an Array with that information
   def get_infos
     CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @c_id)
   end

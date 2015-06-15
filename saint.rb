@@ -25,7 +25,7 @@ class Saint
   #
   # keyword - string value
   #
-  # Return an Array.
+  # Return an Array or string.
   def self.where_keyword(keyword)
     array = self.all
     array.each do |x|
