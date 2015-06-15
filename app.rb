@@ -209,7 +209,7 @@ while answer1 != 4
         end
         
       elsif answer2 ==2
-        puts "What is the keyword you woudl like to search by? (please enter in all lowercase characters)"
+        puts "What is the keyword you would like to search by? (please enter in all lowercase characters)"
         keyword = gets.chomp
         puts "Here's the list of saints with '#{keyword}' in their description."
         puts Saint.where_keyword(keyword)

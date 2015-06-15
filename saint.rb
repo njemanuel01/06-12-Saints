@@ -27,11 +27,12 @@ class Saint
   #
   # Return an Array or string.
   def self.where_keyword(keyword)
+    saint_array = []
     array = self.all
     array.each do |x|
-      string_array = x[description].split
-      if string_array.include?(keyword || keyword.capitalize)
-        saint_array.push("#{x["id"]}-#{x["name"]}")
+      string_array = x["description"].split
+      if (string_array.include?(keyword) || string_array.include?(keyword.capitalize))
+        saint_array.push("#{x["id"]}-#{x["saint_name"]}")
       end
     end
     if saint_array == []
