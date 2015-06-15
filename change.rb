@@ -5,16 +5,6 @@ class Change
     @c_id = id
   end
   
-  # Creates a new change row in the changes table.
-  #
-  # category_name - string for the country name
-  #
-  # Returns a string.
-  def self.add(description, user_id)
-    CONNECTION.execute("INSERT INTO changes (change_description, user_id) VALUES (?, ?);", description, user_id)
-    "#{description} added."
-  end
-  
   # Gets a list of all the changes.
   #
   # Returns an Array

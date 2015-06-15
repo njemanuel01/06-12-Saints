@@ -33,9 +33,10 @@ class User
   #
   # category_name - string for the country name
   #
-  # Returns a string.??
-  def add_change(description, user_id)
+  # Returns a string.
+  def add_change(description)
     CONNECTION.execute("INSERT INTO changes (change_description, user_id) VALUES (?, ?);", description, @u_id)
+    "Change recorded."
   end
   
 end

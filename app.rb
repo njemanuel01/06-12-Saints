@@ -46,7 +46,9 @@ user_id = gets.chomp.to_i
 while !count_array.include?(user_id)
   puts "Invalid entry. Please enter one of these numbers #{count_array}."
   user_id = gets.chomp.to_i
-end    
+end 
+
+user = User.new(user_id)   
 
 while answer1 != 4
   puts "What would you like to work on? (Please enter the number corresponding to your choice)"
@@ -73,6 +75,7 @@ while answer1 != 4
         puts "Please write a short description for this country."
         description = gets.chomp
         puts Country.add(name, description)
+        puts user.add_change("Added #{name} to countries.")
         
       elsif answer2 == 3
         puts "What country would you like to update information for? (Please enter the number corresponding to your choice)"
@@ -94,10 +97,14 @@ while answer1 != 4
             puts "What would you like to change the name of the country to?"
             name = gets.chomp
             puts country.update_names(name)
+            puts user.add_change("#{name}'s name updated in countries.")
           elsif answer3 == 2
             puts "What would you like to change the description of the country to?"
             description = gets.chomp
             puts country.update_descriptions(description)
+            info_array = country.get_infos
+            name = info_array.first["name"]
+            puts user.add_change("#{name}'s description updated in countries.")
           elsif answer3 == 3
             break
           else
@@ -142,6 +149,9 @@ while answer1 != 4
         if Saint.where_country(country_id) == []
           country = Country.new(country_id)
           puts country.delete
+          info_array = country.get_infos
+          name = info_array.first["name"]
+          puts user.add_change("#{name} deleted from countries.")
         else
           puts "The country has saints associated with it, it cannot be deleted."
         end
@@ -173,6 +183,7 @@ while answer1 != 4
         puts "What is the name of the category you would like to add?"
         cat = gets.chomp
         puts Category.add(cat)
+        puts user.add_change("Added #{cat} to categories.")
         
       elsif answer2 == 3
         puts "What category would you like to see a list of saints for? (Please enter the number corresponding to your choice)"
@@ -210,6 +221,9 @@ while answer1 != 4
         if Saint.where_category(cat_id) == []
           category = Category.new(cat_id)
           puts category.delete
+          info_array = category.get_infos
+          name = info_array.first["name"]
+          puts user.add_change("#{name} deleted from categories.")
         else
           puts "The category has saints associated with it, it cannot be deleted."
         end
@@ -275,6 +289,7 @@ while answer1 != 4
         end
         country = Country.new(country_id)
         puts country.new_saint(name, year, description, cat_id)
+        puts user.add_change("Added #{name} to saints.")
         
       elsif answer2 == 4
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
@@ -332,14 +347,21 @@ while answer1 != 4
             puts "What would you like to update the name to?"
             name = gets.chomp
             puts saint.update_names(name)
+            puts user.add_change("#{name}'s name updated in saints.")
           elsif answer3 == 2
             puts "What would you like to update the canonization year to?"
             year = gets.chomp.to_i
             puts saint.update_canonization_years(year)
+            info_array = saint.get_infos
+            name = info_array.first["name"]
+            puts user.add_change("#{name}'s canonization year updated in saints.")
           elsif answer3 == 3
             puts "What would you like to update the description to?"
             description = gets.chomp
             puts saint.update_descriptions(description)
+            info_array = saint.get_infos
+            name = info_array.first["name"]
+            puts user.add_change("#{name}'s description updated in saints.")
           elsif answer3 == 4
             puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
             categories_array = Category.all
@@ -353,6 +375,9 @@ while answer1 != 4
               cat_id = gets.chomp.to_i
             end
             puts saint.update_category_ids(cat_id)
+            info_array = saint.get_infos
+            name = info_array.first["name"]
+            puts user.add_change("#{name}'s category updated in saints.")
           elsif answer3 == 5
             puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
             countries_array = Country.all
@@ -366,6 +391,9 @@ while answer1 != 4
               country_id = gets.chomp.to_i
             end
             puts saint.update_country_ids(country_id)
+            info_array = saint.get_infos
+            name = info_array.first["name"]
+            puts user.add_change("#{name}'s country updated in saints.")
           elsif answer3 == 6
             break
           else
@@ -390,6 +418,10 @@ while answer1 != 4
         end
         saint = Saint.new(saint_id)
         puts saint.delete
+        info_array = saint.get_infos
+        name = info_array.first["name"]
+        puts user.add_change("#{name} deleted from saints.")
+        
         
       elsif answer2 == 7
         break
