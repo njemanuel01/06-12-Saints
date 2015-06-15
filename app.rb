@@ -23,7 +23,7 @@ answer2 = 0
 answer3 = 0
 count_array = []
 
-puts "Are you a new user? (Y/N)"
+puts "Would you like to create a new user? (Y/N)"
 answer = gets.chomp
 
 while !answer_array.include?(answer)
