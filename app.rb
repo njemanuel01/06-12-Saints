@@ -10,12 +10,12 @@ CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'categories' (id INTEGER PRIMARY 
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'saints' (id INTEGER PRIMARY KEY, saint_name TEXT NOT NULL, 
 canonization_year INTEGER, description TEXT NOT NULL, category_id INTEGER, country_id INTEGER)")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'users' (id INTEGER PRIMARY KEY, user_name TEXT)")
-CONNECTION.execute)"CREATE TABLE IF NOT EXISTS 'changes' (id INTEGER PRIMARY KEY, change_description TEXT, user_id INTEGER)"
+CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'changes' (id INTEGER PRIMARY KEY, change_description TEXT, user_id INTEGER)")
 
 CONNECTION.results_as_hash = true
 
 #--------------------------------------------------------------------------------------------
-
+answer_array = ['Y', 'y', 'N', 'n']
 initial_array = ['1-Saint Countries', '2-Saint Categories', '3-Individual Saints', '4-Quit']
 answer1 = 0
 answer2 = 0
@@ -25,12 +25,12 @@ count_array = []
 puts "Are you a new user? (Y/N)"
 answer = gets.chomp
 
-while ((answer != 'Y') || (answer != 'y') || (answer != 'N') || (answer != 'n'))
+while !answer_array.include?(answer)
   puts "Invalid entry.  Please enter Y or N."
   answer = gets.chomp
 end
 
-if ((answer = 'Y') || (answer = 'y'))
+if ((answer == 'Y') || (answer == 'y'))
   puts "What is your name?"
   name = gets.chomp
   User.add(name)
@@ -148,9 +148,9 @@ while answer1 != 4
         end
         if Saint.where_country(country_id) == []
           country = Country.new(country_id)
-          puts country.delete
           info_array = country.get_infos
           name = info_array.first["name"]
+          puts country.delete
           puts user.add_change("#{name} deleted from countries.")
         else
           puts "The country has saints associated with it, it cannot be deleted."
@@ -220,9 +220,9 @@ while answer1 != 4
         end
         if Saint.where_category(cat_id) == []
           category = Category.new(cat_id)
-          puts category.delete
           info_array = category.get_infos
           name = info_array.first["name"]
+          puts category.delete
           puts user.add_change("#{name} deleted from categories.")
         else
           puts "The category has saints associated with it, it cannot be deleted."
@@ -417,9 +417,9 @@ while answer1 != 4
           saint_id = gets.chomp.to_i
         end
         saint = Saint.new(saint_id)
-        puts saint.delete
         info_array = saint.get_infos
         name = info_array.first["name"]
+        puts saint.delete
         puts user.add_change("#{name} deleted from saints.")
         
         
