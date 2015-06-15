@@ -2,12 +2,15 @@ require "sqlite3"
 require_relative "country.rb"
 require_relative "category.rb"
 require_relative "saint.rb"
+require_relative "user.rb"
 
 CONNECTION = SQLite3::Database.new("saints.db")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'countries' (id INTEGER PRIMARY KEY, country_name TEXT UNIQUE NOT NULL, country_description TEXT NOT NULL)")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'categories' (id INTEGER PRIMARY KEY, category_name TEXT UNIQUE NOT NULL)")
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'saints' (id INTEGER PRIMARY KEY, saint_name TEXT NOT NULL, 
 canonization_year INTEGER, description TEXT NOT NULL, category_id INTEGER, country_id INTEGER)")
+CONNECTION.execute("CREATE TABLE IF NOT EXISTS 'users' (id INTEGER PRIMARY KEY, user_name TEXT)")
+CONNECTION.execute)"CREATE TABLE IF NOT EXISTS 'changes' (id INTEGER PRIMARY KEY, change_description TEXT, user_id INTEGER)"
 
 CONNECTION.results_as_hash = true
 
@@ -18,6 +21,32 @@ answer1 = 0
 answer2 = 0
 answer3 = 0
 count_array = []
+
+puts "Are you a new user? (Y/N)"
+answer = gets.chomp
+
+while ((answer != 'Y') || (answer != 'y') || (answer != 'N') || (answer != 'n'))
+  puts "Invalid entry.  Please enter Y or N."
+  answer = gets.chomp
+end
+
+if ((answer = 'Y') || (answer = 'y'))
+  puts "What is your name?"
+  name = gets.chomp
+  User.add(name)
+end
+
+puts "What user are you? (Please enter the number corresponding to your choice)"
+user_array = User.all
+user_array.each do|x|
+  puts "#{x["id"]} - #{x["user_name"]}"
+  count_array << x["id"]
+end
+user_id = gets.chomp.to_i
+while !count_array.include?(user_id)
+  puts "Invalid entry. Please enter one of these numbers #{count_array}."
+  user_id = gets.chomp.to_i
+end    
 
 while answer1 != 4
   puts "What would you like to work on? (Please enter the number corresponding to your choice)"
