@@ -103,8 +103,13 @@ while answer1 != 5
             puts "What would you like to change the name of the country to?"
             name = gets.chomp
             country.name = name
-            puts country.save
-            user.add_change("#{name}'s name updated in countries.")
+            if country.valid?
+              puts country.save
+              user.add_change("#{name}'s name updated in countries.")
+            else
+              puts "Update failed."
+              puts country.errors
+            end
           elsif answer3 == 2
             puts "What would you like to change the description of the country to?"
             description = gets.chomp
