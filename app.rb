@@ -75,8 +75,13 @@ while answer1 != 5
         name = gets.chomp
         puts "Please write a short description for this country."
         description = gets.chomp
-        Country.add(name, description)
-        user.add_change("Added #{name} to countries.")
+        country = Country.new(nil, name, description)
+        if country.add_to_database
+          user.add_change("Added #{name} to countries.")
+        else
+          puts "Update failed."
+          puts country.errors
+        end
         
       elsif answer2 == 3
         puts "What country would you like to update information for? (Please enter the number corresponding to your choice)"
@@ -182,8 +187,13 @@ while answer1 != 5
       elsif answer2 == 2
         puts "What is the name of the category you would like to add?"
         cat = gets.chomp
-        Category.add(cat)
-        user.add_change("Added #{cat} to categories.")
+        category = Category.new(nil, cat)
+        if category.add_to_database
+          user.add_change("Added #{cat} to categories.")
+        else
+          puts "Update failed."
+          puts category.errors
+        end
         
       elsif answer2 == 3
         puts "What category would you like to see a list of saints for? (Please enter the number corresponding to your choice)"

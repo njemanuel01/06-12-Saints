@@ -1,11 +1,12 @@
 # This class performs functions related to adding, updating, and deleting elements from the countries table in the saints database.
 class Country
-  attr_accessor :id, :name, :description
+  attr_accessor :id, :name, :description, :errors
   # Creates an instance of the Country object.
   def initialize(id = nil, country_name = nil, description = nil)
     @id = id
     @name = country_name
     @description = description
+    @errors = []
   end
   
   # Creates a new country row in the countries table.
@@ -16,7 +17,6 @@ class Country
   # Returns a Country object.
   def self.add(country_name, country_description)
     CONNECTION.execute("INSERT INTO countries (country_name, country_description) VALUES (?, ?);", country_name,country_description)
-    "#{country_name} added."
     id = CONNECTION.last_insert_row_id
     Country.new(id, country_name, country_description)
   end
@@ -44,6 +44,32 @@ class Country
     temp_name = result.first["country_name"]
     temp_description = result.first["country_description"]
     Country.new(user_id, temp_name, temp_description)
+  end
+  
+  # Adds a new country to the countries table
+  #
+  # Returns a Boolean.
+  def add_to_database
+    if self.valid?
+      CONNECTION.execute("INSERT INTO countries (country_name, country_description) VALUES (?, ?);", @name, @description)
+      @id = CONNECTION.last_insert_row_id
+    else
+      false
+    end
+  end
+  
+  # Checks to see if a country already exists in the table
+  #
+  # Returns a Boolean.
+  def valid?
+    array = self.class.all
+    array.each do |country|
+      if @name == country.name
+        @errors << "This country already exists."
+      end
+    end
+    
+    return @errors.empty?
   end
   
   # Updates the information of a country in the table

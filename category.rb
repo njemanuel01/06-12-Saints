@@ -1,10 +1,11 @@
 # This class performs functions related to adding, updating, and deleting elements from the categories table in the saints database.
 class Category
-  attr_accessor :id, :name
+  attr_accessor :id, :name, :errors
   # Creates a Category object with attributes: id and name.
   def initialize(category_id = nil, category_name = nil)
     @id = category_id
     @name = category_name
+    @errors = []
   end
   
   # Creates a new category row in the countries table.
@@ -39,6 +40,32 @@ class Category
     result = CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @id)
     temp_name = result.first["category_name"]
     Category.new(category_id, temp_name)
+  end
+  
+  # Adds a new category to the categories table
+  #
+  # Returns a Boolean.
+  def add_to_database
+    if self.valid?
+      CONNECTION.execute("INSERT INTO categories (category_name) VALUES (?);", @name)
+      @id = CONNECTION.last_insert_row_id
+    else
+      false
+    end
+  end
+  
+  # Checks to see if a category already exists in the table
+  #
+  # Returns a Boolean.
+  def valid?
+    array = self.class.all
+    array.each do |category|
+      if @name == category.name
+        @errors << "This category already exists."
+      end
+    end
+    
+    return @errors.empty?
   end
   
   # Deletes a category from the countries tables
