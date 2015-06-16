@@ -98,11 +98,11 @@ class Saint
     @id = saint_id
     CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @id)
     
-    temp_name = result["user_name"]
-    temp_year = result["canonization_year"]
-    temp_description = result["description"]
-    temp_category_id = result["category_id"]
-    temp_country_id = result["country_id"]
+    temp_name = result.first["user_name"]
+    temp_year = result.first["canonization_year"]
+    temp_description = result.first["description"]
+    temp_category_id = result.first["category_id"]
+    temp_country_id = result.first["country_id"]
     Saint.new(saint_id, temp_name, temp_year, temp_description, temp_category_id, temp_country_id)
   end
   
@@ -111,7 +111,7 @@ class Saint
   # Returns a string.
   def save
     CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
-    "Changes saved."
+    "Saint saved."
   end
   
   # Deletes a saint from the saints table

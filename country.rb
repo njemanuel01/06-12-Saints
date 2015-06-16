@@ -41,8 +41,8 @@ class Country
     @id = user_id
     result = CONNECTION.execute("SELECT * FROM 'countries' WHERE id = ?;", @id)
     
-    temp_name = result["user_name"]
-    temp_description = result["country_description"]
+    temp_name = result.first["user_name"]
+    temp_description = result.first["country_description"]
     Country.new(user_id, temp_name, temp_description)
   end
   
@@ -53,7 +53,7 @@ class Country
   # Returns a string.
   def save
     CONNECTION.execute("UPDATE 'countries' SET country_name = ?, country_description = ? WHERE id = ?;", @name, @description, @id)
-    "Changes saved."
+    "Country saved."
   end
   
   # Deletes a country from the countries tables

@@ -37,7 +37,7 @@ class Category
   def self.find(category_id)
     @id = category_id
     CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @id)
-    temp_name = result["category_name"]
+    temp_name = result.first["category_name"]
     Category.new(category_id, temp_name)
   end
   

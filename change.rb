@@ -44,8 +44,16 @@ class Change
     CONNECTION.execute("SELECT * FROM 'changes' WHERE id = ?;", @id)
     
     temp_description = result["change_description"]
-    temp_user_id = result["user_id"]
+    temp_user_id = result.first["user_id"]
     Change.new(change_id, temp_description, temp_user_id)
+  end
+  
+  # Updates specific information on a change based on a fields value
+  #
+  # Returns a string.
+  def save
+    CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
+    "Changes recorded."
   end
   
 end

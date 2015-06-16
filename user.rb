@@ -38,7 +38,7 @@ class User
     @id = user_id
     result = CONNECTION.execute("SELECT * FROM 'users' WHERE id = ?;", @id)
     
-    temp_name = result["user_name"]
+    temp_name = result.first["user_name"]
     User.new(user_id, temp_name)
   end
   
@@ -51,6 +51,14 @@ class User
     CONNECTION.execute("INSERT INTO changes (change_description, user_id) VALUES (?, ?);", description, @id)
     id = CONNECTION.last_insert_row_id
     Change.new(id, description, @id)
+  end
+  
+  # Updates specific information on a user based on a fields value
+  #
+  # Returns a string.
+  def save
+    CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
+    "User saved."
   end
   
 end
