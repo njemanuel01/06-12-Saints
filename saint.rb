@@ -5,7 +5,7 @@ class Saint
   def initialize(id = nil, saint_name = nil, canonization_year = nil, description = nil, category_id = nil, country_id = nil)
     @id = id
     @name = saint_name
-    @year = canonziation_year
+    @year = canonization_year
     @description = description
     @category_id = category_id
     @country_id = country_id
@@ -20,18 +20,18 @@ class Saint
   # country_id - int value for the country a saint is in
   # 
   # Returns a Saint object.
-  def self.add(name, canonization_date, description, category_id, country_id)
+  def self.add(name, canonization_year, description, category_id, country_id)
     CONNECTION.execute("INSERT INTO 'saints' (saint_name, canonization_year, description, category_id, country_id) 
-    VALUES (?, ?, ?, ?, ?);", name, canonization_date, description, category_id, country_id)
+    VALUES (?, ?, ?, ?, ?);", name, canonization_year, description, category_id, country_id)
     id = CONNECTION.last_insert_row_id
-    Saint.new(id, name, canonziation_year, description, category_id, country_id)
+    Saint.new(id, name, canonization_year, description, category_id, country_id)
   end
   
   # Get a list of all the saints
   #
   # Returns an Array of Saint objects
   def self.all
-    resut = CONNECTION.execute("SELECT * FROM saints;")
+    results = CONNECTION.execute("SELECT * FROM saints;")
     results_as_objects = []
     results.each do |results_hash|
       results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
@@ -63,17 +63,14 @@ class Saint
   def self.where_keyword(keyword)
     saint_array = []
     array = self.all
-    array.each do |results_hash|
-      string_array = x["description"].split
+    array.each do |saint|
+      string_array = saint.description.split
       if (string_array.include?(keyword) || string_array.include?(keyword.capitalize))
-        saint_array << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+        saint_array << saint
       end
     end
-    if saint_array == []
-      "No saints with that keyword in their description."
-    else
-      saint_array
-    end
+    
+    return saint_array
   end
   
   # Gets a list of saints for a certain country
@@ -96,9 +93,9 @@ class Saint
   # Returns a Saint object
   def self.find(saint_id)
     @id = saint_id
-    CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @id)
+    result = CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @id)
     
-    temp_name = result.first["user_name"]
+    temp_name = result.first["saint_name"]
     temp_year = result.first["canonization_year"]
     temp_description = result.first["description"]
     temp_category_id = result.first["category_id"]
@@ -106,7 +103,7 @@ class Saint
     Saint.new(saint_id, temp_name, temp_year, temp_description, temp_category_id, temp_country_id)
   end
   
-  # Updates specific information on a saint based on a fields value
+  # Updates the information of a saint in the table
   #
   # Returns a string.
   def save

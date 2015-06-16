@@ -47,18 +47,10 @@ class User
   # category_name - string for the country name
   #
   # Returns a Change object.
-  def self.add(description)
+  def add_change(description)
     CONNECTION.execute("INSERT INTO changes (change_description, user_id) VALUES (?, ?);", description, @id)
     id = CONNECTION.last_insert_row_id
     Change.new(id, description, @id)
-  end
-  
-  # Updates specific information on a user based on a fields value
-  #
-  # Returns a string.
-  def save
-    CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
-    "User saved."
   end
   
 end

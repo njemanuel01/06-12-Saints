@@ -2,8 +2,8 @@
 class Category
   attr_accessor :id, :name
   # Creates a Category object with attributes: id and name.
-  def initialize(category_id, category_name)
-    @id = id
+  def initialize(category_id = nil, category_name = nil)
+    @id = category_id
     @name = category_name
   end
   
@@ -36,7 +36,7 @@ class Category
   # Returns a Category object.
   def self.find(category_id)
     @id = category_id
-    CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @id)
+    result = CONNECTION.execute("SELECT * FROM 'categories' WHERE id = ?;", @id)
     temp_name = result.first["category_name"]
     Category.new(category_id, temp_name)
   end

@@ -41,14 +41,12 @@ class Country
     @id = user_id
     result = CONNECTION.execute("SELECT * FROM 'countries' WHERE id = ?;", @id)
     
-    temp_name = result.first["user_name"]
+    temp_name = result.first["country_name"]
     temp_description = result.first["country_description"]
     Country.new(user_id, temp_name, temp_description)
   end
   
-  # Updates the name of a countries location
-  #
-  # name - string for the new name to be used
+  # Updates the information of a country in the table
   #
   # Returns a string.
   def save
