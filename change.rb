@@ -1,31 +1,51 @@
-# This class performs functions related to adding and viewing elements from the users table in the saints database.
+# This class performs functions related to adding and viewing elements from the changes table in the saints database.
 class Change
-  # Creates an instance location allowing access to information about a certain user.
-  def initialize(id)
-    @c_id = id
+  attr_accessor = :id, :description, :user_id
+  # Creates a Change object with attributes: id, description, and user_id.
+  def initialize(id = nil, description = nil, user_id = nil)
+    @id = id
+    @description = description
+    @user_id = user_id
   end
   
   # Gets a list of all the changes.
   #
-  # Returns an Array
+  # Returns an Array of Change objects
   def self.all
-    CONNECTION.execute("SELECT * FROM changes")
+    results = CONNECTION.execute("SELECT * FROM changes")
+    results_as_objects = []
+    results.each do |results_hash|
+      results_as_objects << Change.new(results_hash["id"], results_hash["change_description"], results_hash["user_id"])
+    end
+    
+    return results_as_objects
   end
   
   # Gets a list of changes with same user
   #
   # user_id - int value for a certain category type
   #
-  # Returns an Array of changes that match the given user_id
-  def self.where_user(user_id)
-    CONNECTION.execute("SELECT * FROM 'changes' WHERE user_id = ?;", user_id)
+  # Returns an Array of Change objects
+  def self.where_user
+    results = CONNECTION.execute("SELECT * FROM 'changes' WHERE user_id = ?;", @id)
+    results_as_objects = []
+    results.each do |results_hash|
+      results_as_objects << Change.new(results_hash["id"], results_hash["change_description"], results_hash["user_id"])
+    end
+    
+    return results_as_objects
   end
   
   # Gets a full set of information on a change
   #
-  # Returns an Array with that information
-  def get_infos
-    CONNECTION.execute("SELECT * FROM 'changes' WHERE id = ?;", @c_id)
+  # Returns a Change object
+  def self.find(change_id)
+    @id = change_id
+    CONNECTION.execute("SELECT * FROM 'changes' WHERE id = ?;", @id)
+    
+    temp_description = result["change_description"]
+    temp_user_id = result["user_id"]
+    Change.new(change_id, temp_description, temp_user_id)
   end
   
 end

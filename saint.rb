@@ -1,38 +1,72 @@
 # This class performs functions related to adding, updating, and deleting elements from the saints table in the saints database.
 class Saint
-  # Creates an instance location allowing access to information about a certain saint.
-  def initialize(id)
-    @s_id = id
+  attr_accessor :id, :name, :year, :description, :category_id, :country_id
+  # Creates a Saint object with attributes: id, name, year, description, category_id, and country_id.
+  def initialize(id = nil, saint_name = nil, canonization_year = nil, description = nil, category_id = nil, country_id = nil)
+    @id = id
+    @name = saint_name
+    @year = canonziation_year
+    @description = description
+    @category_id = category_id
+    @country_id = country_id
+  end
+  
+  # Creates a new saint for the country
+  #
+  # name - string for the saint's name
+  # canonization_date - string for the date of canonization
+  # description - string description of the saint
+  # category_id - int value for the category a saint is in
+  # country_id - int value for the country a saint is in
+  # 
+  # Returns a Saint object.
+  def self.add(name, canonization_date, description, category_id, country_id)
+    CONNECTION.execute("INSERT INTO 'saints' (saint_name, canonization_year, description, category_id, country_id) 
+    VALUES (?, ?, ?, ?, ?);", name, canonization_date, description, category_id, country_id)
+    id = CONNECTION.last_insert_row_id
+    Saint.new(id, name, canonziation_year, description, category_id, country_id)
   end
   
   # Get a list of all the saints
   #
-  # Returns an Array
+  # Returns an Array of Saint objects
   def self.all
-    CONNECTION.execute("SELECT * FROM saints;")
+    resut = CONNECTION.execute("SELECT * FROM saints;")
+    results_as_objects = []
+    results.each do |results_hash|
+      results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+    end
+    
+    return results_as_objects
   end
   
   # Gets a list of saints with same category
   #
   # category_id - int value for a certain category type
   #
-  # Returns an Array of saints that match the given category_id
+  # Returns an Array of Saint objects
   def self.where_category(category_id)
-    CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
+    results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
+    results_as_objects = []
+    results.each do |results_hash|
+      results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+    end
+    
+    return results_as_objects
   end
   
   # Gets a list of saints with a particular keyword in the description.
   #
   # keyword - string value
   #
-  # Return an Array or string.
+  # Return an Array of Student objects or string.
   def self.where_keyword(keyword)
     saint_array = []
     array = self.all
-    array.each do |x|
+    array.each do |results_hash|
       string_array = x["description"].split
       if (string_array.include?(keyword) || string_array.include?(keyword.capitalize))
-        saint_array.push("#{x["id"]}-#{x["saint_name"]}")
+        saint_array << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
       end
     end
     if saint_array == []
@@ -46,74 +80,62 @@ class Saint
   # 
   # country_id - int value for a certain country
   #
-  # Returns an Array of saints that match the given country_id
+  # Returns an Array of Saint objects
   def self.where_country(country_id)
-    CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
+    results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
+    results_as_objects = []
+    results.each do |results_hash|
+      results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+    end
+    
+    return results_as_objects
   end
   
   # Gets a full set of information on a saint
   #
-  # Returns an Array with that information
-  def get_infos
-    CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @s_id)
+  # Returns a Saint object
+  def self.find(saint_id)
+    @id = saint_id
+    CONNECTION.execute("SELECT * FROM 'saints' WHERE id = ?;", @id)
+    
+    temp_name = result["user_name"]
+    temp_year = result["canonization_year"]
+    temp_description = result["description"]
+    temp_category_id = result["category_id"]
+    temp_country_id = result["country_id"]
+    Saint.new(saint_id, temp_name, temp_year, temp_description, temp_category_id, temp_country_id)
   end
   
   # Updates specific information on a saint based on a fields value
   #
-  # field_value - string based on calling method
-  # value - string or int based on calling method
-  #
-  # Returns a new value in the table for the specified field.
-  def update_field_values(field_value, value)
-    CONNECTION.execute("UPDATE 'saints' SET #{field_value} = ? WHERE id = ?;", value, @s_id)
-  end
-  
-  # name - string for the new name
-  #
-  # Returns a string
-  def update_names(name)
-    update_field_values("saint_name", name)
-    "Name updated."
-  end
-  
-  # date - string for the new date
-  #
-  # Returns a string
-  def update_canonization_years(year)
-    update_field_values("canonization_year", year)
-    "Year updated."
-  end
-  
-  # description - string for the new description
-  #
   # Returns a string.
-  def update_descriptions(description)
-    update_field_values("description", description)
-    "Description updated."
-  end
-  
-  # id - int for the new id 
-  #
-  # Returns a string.
-  def update_category_ids(id)
-    update_field_values("category_id", id)
-    "Category updated."
-  end
-  
-  # id - int for the new id
-  #
-  # Returns a string.
-  def update_country_ids(id)
-    update_field_values("country_id", id)
-    "Country updated."
+  def save
+    CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
+    "Changes saved."
   end
   
   # Deletes a saint from the saints table
   #
   # Returns a string
   def delete
-    CONNECTION.execute("DELETE FROM 'saints' WHERE id = ?;", @s_id)
+    CONNECTION.execute("DELETE FROM 'saints' WHERE id = ?;", @id)
     "Saint deleted."
+  end
+  
+  # Get the category name given a categories id
+  #
+  # Returns a string.  
+  def category
+    category = Category.find(@category_id)
+    category.name
+  end
+    
+  # Get the country name given a countries id
+  #
+  # Returns a string.
+  def country
+    country = Country.find(@country_id)
+    country.name
   end
     
 end

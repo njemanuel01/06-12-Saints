@@ -37,6 +37,7 @@ if ((answer == 'Y') || (answer == 'y'))
   User.add(name)
 end
 
+# Sets the user
 puts "What user are you? (Please enter the number corresponding to your choice)"
 user_array = User.all
 user_array.each do|x|
@@ -51,7 +52,8 @@ end
 
 user = User.new(user_id)   
 
-while answer1 != 4
+count_array = []
+while answer1 != 5
   puts "What would you like to work on? (Please enter the number corresponding to your choice)"
   puts initial_array
   answer1 = gets.chomp.to_i
