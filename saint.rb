@@ -1,5 +1,8 @@
+require_relative "database_instance_methods"
 # This class performs functions related to adding, updating, and deleting elements from the saints table in the saints database.
 class Saint
+  include DatabaseInstanceMethod
+  
   attr_accessor :id, :name, :year, :description, :category_id, :country_id
   # Creates a Saint object with attributes: id, name, year, description, category_id, and country_id.
   def initialize(id = nil, saint_name = nil, canonization_year = nil, description = nil, category_id = nil, country_id = nil)
