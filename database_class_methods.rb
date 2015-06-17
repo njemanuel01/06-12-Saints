@@ -24,19 +24,19 @@ module DatabaseClassMethod
   end
   
   def add_module(values = [])
-    table_name = self.to_s.pluralize.underscore
-    
-    pst = CONNECTION.prepare "SELECT * FROM #{table_name}"    
-    
-    columns = pst.columns
-    columns.delete_at(0)
-    
-    CONNECTION.execute("INSERT INTO #{table_name} (#{columns.to_s.delete "\""}) VALUES (?);", values)
-    
-    id = CONNECTION.last_insert_row_id
-    values.insert(0, id)
-    values = columns.zip(values).to_h
-    self.new(values)  
+      table_name = self.to_s.pluralize.underscore
+
+      pst = CONNECTION.prepare "SELECT * FROM #{table_name}"
+
+      columns = pst.columns
+      columns.delete_at(0)
+
+      CONNECTION.execute("INSERT INTO #{table_name} (#{columns.to_s.delete "\""}) VALUES (?);", values.to_s)
+
+      id = CONNECTION.last_insert_row_id
+      values.insert(0, id)
+      values = columns.zip(values).to_h
+      self.new(values)
   end
   
 end

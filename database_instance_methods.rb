@@ -13,12 +13,12 @@ module DatabaseInstanceMethod
   # Updates the information of a country in the table
   #
   # Returns a string.
-  def save
-    table_name = self.class.to_s.pluralize.underscore
-    
-    CONNECTION.execute("UPDATE '#{table_name}' SET country_name = ?, country_description = ? WHERE id = ?;", @name, @description, @id)
-    "Country saved."
-  end
+  # def save
+  #     table_name = self.class.to_s.pluralize.underscore
+  #
+  #     CONNECTION.execute("UPDATE '#{table_name}' SET country_name = ?, country_description = ? WHERE id = ?;", @name, @description, @id)
+  #     "Country saved."
+  #   end
   
   def delete
     table_name = self.class.to_s.pluralize.underscore
