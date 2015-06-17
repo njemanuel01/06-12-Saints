@@ -30,12 +30,15 @@ module DatabaseClassMethod
 
       columns = pst.columns
       columns.delete_at(0)
-
-      CONNECTION.execute("INSERT INTO #{table_name} (#{columns.to_s.delete "\""}) VALUES (?);", values.to_s)
+      
+      CONNECTION.execute("INSERT INTO #{table_name} (#{columns.to_s.delete "\"\[\]"}) VALUES (#{values.to_s.delete "\[\]"});")
 
       id = CONNECTION.last_insert_row_id
       values.insert(0, id)
+      columns.insert(0, "id")
+      
       values = columns.zip(values).to_h
+      
       self.new(values)
   end
   
