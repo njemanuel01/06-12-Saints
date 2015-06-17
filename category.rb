@@ -1,13 +1,15 @@
 require_relative "database_class_methods.rb"
+require_relative "database_instance_methods.rb"
 # This class performs functions related to adding, updating, and deleting elements from the categories table in the saints database.
 class Category
   extend DatabaseClassMethod
+  include DatabaseInstanceMethod
   
   attr_accessor :id, :name, :errors
   # Creates a Category object with attributes: id and name.
-  def initialize(values = [])
-    @id = values[0]
-    @name = values[1]
+  def initialize(values = {})
+    @id = values["id"]
+    @name = values["category_name"]
     @errors = []
   end
   

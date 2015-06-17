@@ -9,35 +9,34 @@ module DatabaseClassMethod
     results = CONNECTION.execute("SELECT * FROM #{table_name}")
     results_as_objects = []
     results.each do |results_hash|
-      values = results_hash.values
-      results_as_objects << self.new(values)
+      results_as_objects << self.new(results_hash)
     end
     
     return results_as_objects
   end
   
-  def find_module(category_id)
+  def find_module(id)
     table_name = self.to_s.pluralize.underscore
     
-    @id = category_id
-    result = CONNECTION.execute("SELECT * FROM '#{table_name}' WHERE id = ?;", @id)
-    values = results_hash.values
+    result = CONNECTION.execute("SELECT * FROM '#{table_name}' WHERE id = ?;", id).first
     
-    self.new(values)
+    self.new(result)
   end
   
-  def add_module(category_name)
-    # table_name = self.to_s.pluralize.underscore
-    
-    # CONNECTION.execute("INSERT INTO #{table_name} (Some column) VALUES (?);", category_name)
-    
-  end
-  
-  def delete(id)
+  def add_module(values = [])
     table_name = self.to_s.pluralize.underscore
     
-    CONNECTION.execute("DELETE FROM '#{table_name}' WHERE id = ?;", id)
+    pst = CONNECTION.prepare "SELECT * FROM #{table_name}"    
+    
+    columns = pst.columns
+    columns.delete_at(0)
+    
+    CONNECTION.execute("INSERT INTO #{table_name} (#{columns.to_s.delete "\""}) VALUES (?);", values)
+    
+    id = CONNECTION.last_insert_row_id
+    values.insert(0, id)
+    values = columns.zip(values).to_h
+    self.new(values)  
   end
-  
   
 end

@@ -1,11 +1,16 @@
+require_relative "database_class_methods.rb"
+require_relative "database_instance_methods.rb"
 # This class performs functions related to adding, updating, and deleting elements from the countries table in the saints database.
 class Country
+  extend DatabaseClassMethod
+  include DatabaseInstanceMethod
+  
   attr_accessor :id, :name, :description, :errors
   # Creates an instance of the Country object.
-  def initialize(id = nil, country_name = nil, description = nil)
-    @id = id
-    @name = country_name
-    @description = description
+  def initialize(values = {})
+    @id = values["id"]
+    @name = values["country_name"]
+    @description = values["country_description"]
     @errors = []
   end
   
