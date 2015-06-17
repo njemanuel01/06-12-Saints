@@ -13,19 +13,6 @@ class Change
     @user_id = user_id
   end
   
-  # Gets a list of all the changes.
-  #
-  # Returns an Array of Change objects
-  def self.all
-    results = CONNECTION.execute("SELECT * FROM changes")
-    results_as_objects = []
-    results.each do |results_hash|
-      results_as_objects << Change.new(results_hash["id"], results_hash["change_description"], results_hash["user_id"])
-    end
-    
-    return results_as_objects
-  end
-  
   # Gets a list of changes with same user
   #
   # user_id - int value for a certain category type
@@ -39,18 +26,6 @@ class Change
     end
     
     return results_as_objects
-  end
-  
-  # Gets a full set of information on a change
-  #
-  # Returns a Change object
-  def self.find(change_id)
-    @id = change_id
-    CONNECTION.execute("SELECT * FROM 'changes' WHERE id = ?;", @id)
-    
-    temp_description = result["change_description"]
-    temp_user_id = result.first["user_id"]
-    Change.new(change_id, temp_description, temp_user_id)
   end
   
 end

@@ -3,7 +3,7 @@ require "active_support/inflector"
 
 module DatabaseClassMethod
   
-  def all_module
+  def all
     table_name = self.to_s.pluralize.underscore
     
     results = CONNECTION.execute("SELECT * FROM #{table_name}")
@@ -15,7 +15,7 @@ module DatabaseClassMethod
     return results_as_objects
   end
   
-  def find_module(id)
+  def find(id)
     table_name = self.to_s.pluralize.underscore
     
     result = CONNECTION.execute("SELECT * FROM '#{table_name}' WHERE id = ?;", id).first
@@ -23,7 +23,7 @@ module DatabaseClassMethod
     self.new(result)
   end
   
-  def add_module(values = [])
+  def add(values = [])
       table_name = self.to_s.pluralize.underscore
 
       pst = CONNECTION.prepare "SELECT * FROM #{table_name}"
