@@ -13,19 +13,4 @@ class Change
     @user_id = values["user_id"]
   end
   
-  # Gets a list of changes with same user
-  #
-  # user_id - int value for a certain category type
-  #
-  # Returns an Array of Change objects
-  def self.where_user(user_id)
-    results = CONNECTION.execute("SELECT * FROM 'changes' WHERE user_id = ?;", user_id)
-    results_as_objects = []
-    results.each do |results_hash|
-      results_as_objects << Change.new(results_hash)
-    end
-    
-    return results_as_objects
-  end
-  
 end

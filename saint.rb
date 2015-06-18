@@ -16,21 +16,6 @@ class Saint
     @country_id = values["country_id"]
   end
   
-  # Gets a list of saints with same category
-  #
-  # category_id - int value for a certain category type
-  #
-  # Returns an Array of Saint objects
-  def self.where_category(category_id)
-    results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
-    results_as_objects = []
-    results.each do |results_hash|
-      results_as_objects << Saint.new(results_hash)
-    end
-    
-    return results_as_objects
-  end
-  
   # Gets a list of saints with a particular keyword in the description.
   #
   # keyword - string value
@@ -49,20 +34,6 @@ class Saint
     return saint_array
   end
   
-  # Gets a list of saints for a certain country
-  # 
-  # country_id - int value for a certain country
-  #
-  # Returns an Array of Saint objects
-  def self.where_country(country_id)
-    results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
-    results_as_objects = []
-    results.each do |results_hash|
-      results_as_objects << Saint.new(results_hash)
-    end
-    
-    return results_as_objects
-  end
   
   # Updates the information of a saint in the table
   #

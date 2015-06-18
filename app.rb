@@ -137,7 +137,7 @@ while answer1 != 5
           country_id = gets.chomp.to_i
         end
         puts "Here's the list"
-        saint_array = Saint.where_country(country_id)
+        saint_array = Saint.where("country_id", country_id)
         saint_array.each do |x|
           puts x.name
         end
@@ -157,7 +157,7 @@ while answer1 != 5
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           country_id = gets.chomp.to_i
         end
-        if Saint.where_country(country_id) == []
+        if Saint.where("country_id", country_id) == []
           country = Country.find(country_id)
           name = country.name
           puts country.delete
@@ -213,7 +213,7 @@ while answer1 != 5
           cat_id = gets.chomp.to_i
         end
         puts "Here's the list"
-        saint_array = Saint.where_category(cat_id)
+        saint_array = Saint.where("category_id", cat_id)
         saint_array.each do|x|
           puts x.name
         end
@@ -233,7 +233,7 @@ while answer1 != 5
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
         end
-        if Saint.where_category(cat_id) == []
+        if Saint.where("category_id", cat_id) == []
           category = Category.find(cat_id)
           name = category.name
           puts category.delete
@@ -450,7 +450,7 @@ while answer1 != 5
         end   
       elsif answer2 == 2
         puts "Here's a list of your changes."
-        change_array = Change.where_user(user.id)
+        change_array = Change.where("user_id", user.id)
         change_array.each do |x|
           puts "#{x.id} - #{x.description}"
         end  
