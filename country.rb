@@ -5,12 +5,12 @@ class Country
   extend DatabaseClassMethod
   include DatabaseInstanceMethod
   
-  attr_accessor :id, :name, :description, :errors
+  attr_accessor :id, :country_name, :country_description, :errors
   # Creates an instance of the Country object.
   def initialize(values = {})
     @id = values["id"]
-    @name = values["country_name"]
-    @description = values["country_description"]
+    @country_name = values["country_name"]
+    @country_description = values["country_description"]
     @errors = []
   end
   
@@ -38,14 +38,6 @@ class Country
     end
     
     return @errors.empty?
-  end
-  
-  # Updates the information of a country in the table
-  #
-  # Returns a string.
-  def save
-    CONNECTION.execute("UPDATE 'countries' SET country_name = ?, country_description = ? WHERE id = ?;", @name, @description, @id)
-    "Country saved."
   end
    
 end

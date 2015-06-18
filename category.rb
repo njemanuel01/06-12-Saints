@@ -5,11 +5,11 @@ class Category
   extend DatabaseClassMethod
   include DatabaseInstanceMethod
   
-  attr_accessor :id, :name, :errors
+  attr_accessor :id, :category_name, :errors
   # Creates a Category object with attributes: id and name.
   def initialize(values = {})
     @id = values["id"]
-    @name = values["category_name"]
+    @category_name = values["category_name"]
     @errors = []
   end
   

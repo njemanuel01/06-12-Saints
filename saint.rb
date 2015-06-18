@@ -5,12 +5,12 @@ class Saint
   extend DatabaseClassMethod
   include DatabaseInstanceMethod
   
-  attr_accessor :id, :name, :year, :description, :category_id, :country_id
+  attr_accessor :id, :saint_name, :canonization_year, :description, :category_id, :country_id
   # Creates a Saint object with attributes: id, name, year, description, category_id, and country_id.
   def initialize(values = {})
     @id = values["id"]
-    @name = values["saint_name"]
-    @year = values["canonization_year"]
+    @saint_name = values["saint_name"]
+    @canonization_year = values["canonization_year"]
     @description = values["description"]
     @category_id = values["category_id"]
     @country_id = values["country_id"]
@@ -32,15 +32,6 @@ class Saint
     end
     
     return saint_array
-  end
-  
-  
-  # Updates the information of a saint in the table
-  #
-  # Returns a string.
-  def save
-    CONNECTION.execute("UPDATE 'saints' SET saint_name = ?, canonization_year = ?, description = ?, category_id = ?, country_id = ? WHERE id = ?;", @name, @year, @description, @category_id, @country_id, @id)
-    "Saint saved."
   end
     
 end

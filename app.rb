@@ -39,7 +39,7 @@ else
   puts "What user are you? (Please enter the number corresponding to your choice)"
   user_array = User.all
   user_array.each do |x|
-    puts "#{x.id} - #{x.name}"
+    puts "#{x.id} - #{x.user_name}"
     count_array << x.id
   end
   user_id = gets.chomp.to_i
@@ -67,7 +67,7 @@ while answer1 != 5
         puts "Here's a list of countries."
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
         end
         
       elsif answer2 == 2
@@ -87,7 +87,7 @@ while answer1 != 5
         puts "What country would you like to update information for? (Please enter the number corresponding to your choice)"
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
           count_array << x.id
         end
         country_id = gets.chomp.to_i
@@ -102,7 +102,7 @@ while answer1 != 5
           if answer3 == 1
             puts "What would you like to change the name of the country to?"
             name = gets.chomp
-            country.name = name
+            country.country_name = name
             if country.valid?
               puts country.save
               Change.add(["#{name}'s name updated in countries.", user.id])
@@ -113,9 +113,9 @@ while answer1 != 5
           elsif answer3 == 2
             puts "What would you like to change the description of the country to?"
             description = gets.chomp
-            country.description = description
+            country.country_description = description
             puts country.save
-            Change.add(["#{country.name}'s description updated in countries.", user.id])
+            Change.add(["#{country.country_name}'s description updated in countries.", user.id])
           elsif answer3 == 3
             break
           else
@@ -128,7 +128,7 @@ while answer1 != 5
         puts "Here's a list of countries."
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
           count_array << x.id
         end
         country_id = gets.chomp.to_i
@@ -139,14 +139,14 @@ while answer1 != 5
         puts "Here's the list"
         saint_array = Saint.where("country_id", country_id)
         saint_array.each do |x|
-          puts x.name
+          puts x.saint_name
         end
         
       elsif answer2 == 5
         puts "What country would you like to delete, or 0-Exit? (Please enter the number corresponding to your choice)"
         countries_array = Country.all
         countries_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
           count_array << x.id
         end
         country_id = gets.chomp.to_i
@@ -159,7 +159,7 @@ while answer1 != 5
         end
         if Saint.where("country_id", country_id) == []
           country = Country.find(country_id)
-          name = country.name
+          name = country.country_name
           puts country.delete
           Change.add(["#{name} deleted from countries.", user.id])
         else
@@ -186,7 +186,7 @@ while answer1 != 5
         puts "Here's a list of saint categories."
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
         end
         
       elsif answer2 == 2
@@ -204,7 +204,7 @@ while answer1 != 5
         puts "What category would you like to see a list of saints for? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.category_name}"
           count_array << x.id
         end
         cat_id = gets.chomp.to_i
@@ -215,14 +215,14 @@ while answer1 != 5
         puts "Here's the list"
         saint_array = Saint.where("category_id", cat_id)
         saint_array.each do|x|
-          puts x.name
+          puts x.saint_name
         end
         
       elsif answer2 == 4
         puts "What category would you like to delete or 0-Exit? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.category_name}"
           count_array << x.id
         end
         cat_id = gets.chomp.to_i
@@ -235,7 +235,7 @@ while answer1 != 5
         end
         if Saint.where("category_id", cat_id) == []
           category = Category.find(cat_id)
-          name = category.name
+          name = category.category_name
           puts category.delete
           Change.add(["#{name} deleted from categories.", user.id])
         else
@@ -262,7 +262,7 @@ while answer1 != 5
         puts "Here's a list of saints."
         saint_array = Saint.all
         saint_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.saint_name}"
         end
         
       elsif answer2 ==2
@@ -274,7 +274,7 @@ while answer1 != 5
           puts "No saints with that keyword in their description."
         else
           saint_array.each do |saint|
-            puts saint.name
+            puts saint.saint_name
           end
         end
           
@@ -288,7 +288,7 @@ while answer1 != 5
         puts "What country is this saint from? (Please enter the number corresponding to your choice)"
         countries_array = Country.all
         countries_array.each do|x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.country_name}"
           count_array << x.id
         end
         country_id = gets.chomp.to_i
@@ -299,7 +299,7 @@ while answer1 != 5
         puts "What category is this saint in? (Please enter the number corresponding to your choice)"
         categories_array = Category.all
         categories_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.category_name}"
           count_array << x.id
         end
         cat_id = gets.chomp.to_i
@@ -314,7 +314,7 @@ while answer1 != 5
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.saint_name}"
           count_array << x.id
         end
         saint_id = gets.chomp.to_i
@@ -345,7 +345,7 @@ while answer1 != 5
         puts "What saint would you like to update information for? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.saint_name}"
           count_array << x.id
         end
         saint_id = gets.chomp.to_i
@@ -359,24 +359,24 @@ while answer1 != 5
           answer3 = gets.chomp.to_i
           if answer3 == 1
             puts "What would you like to update the name to?"
-            saint.name = gets.chomp
+            saint.saint_name = gets.chomp
             puts saint.save
-            Change.add(["#{saint.name}'s name updated in saints.", user.id])
+            Change.add(["#{saint.saint_name}'s name updated in saints.", user.id])
           elsif answer3 == 2
             puts "What would you like to update the canonization year to?"
-            saint.year = gets.chomp.to_i
+            saint.canonization_year = gets.chomp.to_i
             puts saint.save
-            Change.add(["#{saint.name}'s canonization year updated in saints.", user.id])
+            Change.add(["#{saint.saint_name}'s canonization year updated in saints.", user.id])
           elsif answer3 == 3
             puts "What would you like to update the description to?"
             saint.description = gets.chomp
             puts saint.save
-            Change.add(["#{saint.name}'s description updated in saints.", user.id])
+            Change.add(["#{saint.saint_name}'s description updated in saints.", user.id])
           elsif answer3 == 4
             puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
             categories_array = Category.all
             categories_array.each do |x|
-              puts "#{x.id} - #{x.name}"
+              puts "#{x.id} - #{x.category_name}"
               count_array << x.id
             end
             cat_id = gets.chomp.to_i
@@ -386,12 +386,12 @@ while answer1 != 5
             end
             saint.category_id = cat_id
             puts saint.save
-            Change.add(["#{saint.name}'s category updated in saints.", user.id])
+            Change.add(["#{saint.saint_name}'s category updated in saints.", user.id])
           elsif answer3 == 5
             puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
             countries_array = Country.all
             countries_array.each do|x|
-              puts "#{x.id} - #{x.name}"
+              puts "#{x.id} - #{x.country_name}"
               count_array << x.id
             end
             country_id = gets.chomp.to_i
@@ -401,7 +401,7 @@ while answer1 != 5
             end
             saint.country_id = country_id
             puts saint.save
-            Change.add(["#{saint.name}'s country updated in saints.", user.id])
+            Change.add(["#{saint.saint_name}'s country updated in saints.", user.id])
           elsif answer3 == 6
             break
           else
@@ -413,7 +413,7 @@ while answer1 != 5
         puts "What saint would you like to delete, or 0-Exit? (Please enter the number corresponding to your choice)"
         saint_array = Saint.all
         saint_array.each do |x|
-          puts "#{x.id} - #{x.name}"
+          puts "#{x.id} - #{x.saint_name}"
           count_array << x.id
         end
         saint_id = gets.chomp.to_i
@@ -446,13 +446,13 @@ while answer1 != 5
         puts "Here's a list of all changes."
         change_array = Change.all
         change_array.each do |x|
-          puts "#{x.id} - #{x.description}"
+          puts "#{x.id} - #{x.change_description}"
         end   
       elsif answer2 == 2
         puts "Here's a list of your changes."
         change_array = Change.where("user_id", user.id)
         change_array.each do |x|
-          puts "#{x.id} - #{x.description}"
+          puts "#{x.id} - #{x.change_description}"
         end  
       elsif answer2 == 3
         break

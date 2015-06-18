@@ -5,11 +5,11 @@ class Change
   extend DatabaseClassMethod
   include DatabaseInstanceMethod
   
-  attr_accessor :id, :description, :user_id
+  attr_accessor :id, :change_description, :user_id
   # Creates a Change object with attributes: id, description, and user_id.
   def initialize(values = {})
     @id = values["id"]
-    @description = values["change_description"]
+    @change_description = values["change_description"]
     @user_id = values["user_id"]
   end
   

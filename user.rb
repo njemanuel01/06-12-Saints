@@ -5,11 +5,11 @@ class User
   extend DatabaseClassMethod
   include DatabaseInstanceMethod
   
-  attr_accessor :id, :name
+  attr_accessor :id, :user_name
   # Creates a User object with attributes: id and user_name.
   def initialize(values = {})
     @id = values["id"]
-    @name = values["user_name"]
+    @user_name = values["user_name"]
   end
   
 end

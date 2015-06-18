@@ -10,20 +10,25 @@ module DatabaseInstanceMethod
     result[field]
   end
   
-  # Updates the information of a country in the table
-  #
-  # Returns a string.
-  # def save
-  #     table_name = self.class.to_s.pluralize.underscore
-  #
-  #     CONNECTION.execute("UPDATE '#{table_name}' SET country_name = ?, country_description = ? WHERE id = ?;", @name, @description, @id)
-  #     "Country saved."
-  #   end
+  def save
+    table_name = self.class.to_s.pluralize.underscore
+    value = self.to_s
+    
+    hash = {}
+    self.instance_variables.each {|var| hash[var.to_s.delete("@")] = self.instance_variable_get(var) }
+    hash.delete("id")
+    hash.delete("errors")
+    sql_hash = hash.to_s.delete "\>"
+
+    CONNECTION.execute("UPDATE '#{table_name}' SET #{sql_hash[1...-1]} WHERE id = ?;", @id)
+    "Saved."
+  end
   
   def delete
     table_name = self.class.to_s.pluralize.underscore
     
     CONNECTION.execute("DELETE FROM '#{table_name}' WHERE id = ?;", @id)
+    "Deleted."
   end
   
 end
