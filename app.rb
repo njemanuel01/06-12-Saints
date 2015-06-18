@@ -34,7 +34,7 @@ end
 if ((answer == 'Y') || (answer == 'y'))
   puts "What is your name?"
   name = gets.chomp
-  user = User.add(name)
+  user = User.add([name])
 else
   puts "What user are you? (Please enter the number corresponding to your choice)"
   user_array = User.all
@@ -75,9 +75,9 @@ while answer1 != 5
         name = gets.chomp
         puts "Please write a short description for this country."
         description = gets.chomp
-        country = Country.new(nil, name, description)
+        country = Country.new({"id" => nil, "country_name" => name, "country_description" => description})
         if country.add_to_database
-          user.add_change("Added #{name} to countries.")
+          Change.add(["Added #{name} to countries.", user.id])
         else
           puts "Update failed."
           puts country.errors
@@ -105,7 +105,7 @@ while answer1 != 5
             country.name = name
             if country.valid?
               puts country.save
-              user.add_change("#{name}'s name updated in countries.")
+              Change.add(["#{name}'s name updated in countries.", user.id])
             else
               puts "Update failed."
               puts country.errors
@@ -115,7 +115,7 @@ while answer1 != 5
             description = gets.chomp
             country.description = description
             puts country.save
-            user.add_change("#{country.name}'s description updated in countries.")
+            Change.add(["#{country.name}'s description updated in countries.", user.id])
           elsif answer3 == 3
             break
           else
@@ -161,7 +161,7 @@ while answer1 != 5
           country = Country.find(country_id)
           name = country.name
           puts country.delete
-          user.add_change("#{name} deleted from countries.")
+          Change.add(["#{name} deleted from countries.", user.id])
         else
           puts "The country has saints associated with it, it cannot be deleted."
         end
@@ -192,9 +192,9 @@ while answer1 != 5
       elsif answer2 == 2
         puts "What is the name of the category you would like to add?"
         cat = gets.chomp
-        category = Category.new(nil, cat)
+        category = Category.new({"id" => nil, "category_name" => cat})
         if category.add_to_database
-          user.add_change("Added #{cat} to categories.")
+          Change.add(["Added #{cat} to categories.", user.id])
         else
           puts "Update failed."
           puts category.errors
@@ -237,7 +237,7 @@ while answer1 != 5
           category = Category.find(cat_id)
           name = category.name
           puts category.delete
-          user.add_change("#{name} deleted from categories.")
+          Change.add(["#{name} deleted from categories.", user.id])
         else
           puts "The category has saints associated with it, it cannot be deleted."
         end
@@ -254,7 +254,7 @@ while answer1 != 5
   # Loop for individual Saints  
   elsif answer1 == 3
     saints_array = ['1-See a list of saints', '2-See a list of saints with a particular keyword in their description', '3-Add a saint', '4-See information on a particular saint', '5-Update information on a particular saint', '6-Delete a saint', '7-Exit Saints']
-    while answer2 != 6
+    while answer2 != 7
       puts "What would you like to do in Individual Saints? (Please enter the number corresponding to your choice)"
       puts saints_array
       answer2 = gets.chomp.to_i
@@ -307,8 +307,8 @@ while answer1 != 5
           puts "Invalid entry. Please enter one of these numbers #{count_array}."
           cat_id = gets.chomp.to_i
         end
-        Saint.add(name, year, description, cat_id, country_id)
-        user.add_change("Added #{name} to saints.")
+        Saint.add([name, year, description, cat_id, country_id])
+        Change.add(["Added #{name} to saints.", user.id])
         
       elsif answer2 == 4
         puts "What saint would you like to see information on? (Please enter the number corresponding to your choice)"
@@ -329,9 +329,11 @@ while answer1 != 5
           if answer3 == 1
             puts saint.description
           elsif answer3 == 2
-            puts saint.category
+            category = Category.find(saint.category_id)
+            puts category.get("category_name")
           elsif answer3 == 3
-            puts saint.country
+            country = Country.find(saint.country_id)
+            puts country.get("country_name")
           elsif answer3 == 4
             break
           else
@@ -359,17 +361,17 @@ while answer1 != 5
             puts "What would you like to update the name to?"
             saint.name = gets.chomp
             puts saint.save
-            user.add_change("#{saint.name}'s name updated in saints.")
+            Change.add(["#{saint.name}'s name updated in saints.", user.id])
           elsif answer3 == 2
             puts "What would you like to update the canonization year to?"
             saint.year = gets.chomp.to_i
             puts saint.save
-            user.add_change("#{saint.name}'s canonization year updated in saints.")
+            Change.add(["#{saint.name}'s canonization year updated in saints.", user.id])
           elsif answer3 == 3
             puts "What would you like to update the description to?"
             saint.description = gets.chomp
             puts saint.save
-            user.add_change("#{saint.name}'s description updated in saints.")
+            Change.add(["#{saint.name}'s description updated in saints.", user.id])
           elsif answer3 == 4
             puts "What category would you like to move the saint to? (Please enter the number corresponding to your choice)"
             categories_array = Category.all
@@ -384,7 +386,7 @@ while answer1 != 5
             end
             saint.category_id = cat_id
             puts saint.save
-            user.add_change("#{saint.name}'s category updated in saints.")
+            Change.add(["#{saint.name}'s category updated in saints.", user.id])
           elsif answer3 == 5
             puts "What country would you like to move the saint to? (Please enter the number corresponding to your choice)"
             countries_array = Country.all
@@ -399,7 +401,7 @@ while answer1 != 5
             end
             saint.country_id = country_id
             puts saint.save
-            user.add_change("#{saint.name}'s country updated in saints.")
+            Change.add(["#{saint.name}'s country updated in saints.", user.id])
           elsif answer3 == 6
             break
           else
@@ -425,7 +427,7 @@ while answer1 != 5
         saint = Saint.find(saint_id)
         name = saint.name
         puts saint.delete
-        user.add_change("#{name} deleted from saints.")
+        Change.add(["#{name} deleted from saints.", user.id])
         
       elsif answer2 == 7
         break

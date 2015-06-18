@@ -25,7 +25,7 @@ class Saint
     results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE category_id = ?;", category_id)
     results_as_objects = []
     results.each do |results_hash|
-      results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+      results_as_objects << Saint.new(results_hash)
     end
     
     return results_as_objects
@@ -58,7 +58,7 @@ class Saint
     results = CONNECTION.execute("SELECT saint_name FROM 'saints' WHERE country_id = ?;", country_id)
     results_as_objects = []
     results.each do |results_hash|
-      results_as_objects << Saint.new(results_hash["id"], results_hash["saint_name"], results_hash["canonization_year"], results_hash["description"], results_hash["category_id"], results_hash["country_id"])
+      results_as_objects << Saint.new(results_hash)
     end
     
     return results_as_objects
