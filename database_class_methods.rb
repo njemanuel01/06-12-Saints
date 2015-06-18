@@ -1,8 +1,11 @@
 require "active_support"
 require "active_support/inflector"
 
+#Creates class methods to access the database with.
 module DatabaseClassMethod
-  
+  # Gets a list of all the rows from a table
+  #
+  # Returns those rows as an Array of objects of the calling class
   def all
     table_name = self.to_s.pluralize.underscore
     
@@ -15,6 +18,11 @@ module DatabaseClassMethod
     return results_as_objects
   end
   
+  # Gets a single row from a table
+  #
+  # id - integer value for the the row key to lookup
+  #
+  # Returns the row as an object of the calling class
   def find(id)
     table_name = self.to_s.pluralize.underscore
     
@@ -23,11 +31,12 @@ module DatabaseClassMethod
     self.new(result)
   end
   
-  # Gets a list of saints with same category
+  # Gets a list of rows from a table
   #
-  # category_id - int value for a certain category type
+  # column_name - string value for the columen to lookup
+  # value - string or integer value to lookup
   #
-  # Returns an Array of Saint objects
+  # Returns the rows as an Array of objects of the calling class
   def where(column_name, value)
     table_name = self.to_s.pluralize.underscore
     results = CONNECTION.execute("SELECT * FROM #{table_name} WHERE #{column_name} = ?;", value)
@@ -39,6 +48,11 @@ module DatabaseClassMethod
     return results_as_objects
   end
   
+  # Inserts a row into a table
+  #
+  # values - Array of values to add to the row
+  #
+  # Returns an object of the calling class
   def add(values = []) #values_hash = {}
       table_name = self.to_s.pluralize.underscore
 

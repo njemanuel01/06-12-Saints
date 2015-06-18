@@ -6,7 +6,9 @@ class User
   include DatabaseInstanceMethod
   
   attr_accessor :id, :user_name
-  # Creates a User object with attributes: id and user_name.
+  # Creates an instance of the User class.
+  #
+  # values - hash with "id" and "user_name" values
   def initialize(values = {})
     @id = values["id"]
     @user_name = values["user_name"]

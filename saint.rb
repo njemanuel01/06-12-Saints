@@ -6,7 +6,9 @@ class Saint
   include DatabaseInstanceMethod
   
   attr_accessor :id, :saint_name, :canonization_year, :description, :category_id, :country_id
-  # Creates a Saint object with attributes: id, name, year, description, category_id, and country_id.
+  # Creates an instance of the Saint class.
+  #
+  # values - hash with "id", "saint_name", "canonization_year", "description", "category_id", and "country_id" values
   def initialize(values = {})
     @id = values["id"]
     @saint_name = values["saint_name"]

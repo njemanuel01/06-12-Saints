@@ -6,7 +6,9 @@ class Country
   include DatabaseInstanceMethod
   
   attr_accessor :id, :country_name, :country_description, :errors
-  # Creates an instance of the Country object.
+  # Creates an instance of the Country class.
+  #
+  # values - hash with "id", "country_name", and "country_description" values
   def initialize(values = {})
     @id = values["id"]
     @country_name = values["country_name"]

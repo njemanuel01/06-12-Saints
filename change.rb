@@ -6,7 +6,9 @@ class Change
   include DatabaseInstanceMethod
   
   attr_accessor :id, :change_description, :user_id
-  # Creates a Change object with attributes: id, description, and user_id.
+  # Creates an instance of the Change class.
+  #
+  # values - hash with "id", "change_description", and "user_id" values
   def initialize(values = {})
     @id = values["id"]
     @change_description = values["change_description"]

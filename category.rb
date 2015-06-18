@@ -6,7 +6,9 @@ class Category
   include DatabaseInstanceMethod
   
   attr_accessor :id, :category_name, :errors
-  # Creates a Category object with attributes: id and name.
+  # Creates an instance of the Category class.
+  #
+  # values - hash with "id" and "category_name" values
   def initialize(values = {})
     @id = values["id"]
     @category_name = values["category_name"]

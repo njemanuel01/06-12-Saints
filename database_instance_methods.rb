@@ -1,8 +1,12 @@
 require "active_support"
 require "active_support/inflector"
 
+#Creates instance methods to access the database with.
 module DatabaseInstanceMethod
   
+  # Gets a single column value from a row in a table
+  #
+  # Retuns either a string or integer
   def get(field)
     table_name = self.class.to_s.pluralize.underscore
     
@@ -10,6 +14,9 @@ module DatabaseInstanceMethod
     result[field]
   end
   
+  # Updates the information in a single row of a table
+  #
+  # Returns a string.
   def save
     table_name = self.class.to_s.pluralize.underscore
     value = self.to_s
@@ -24,6 +31,9 @@ module DatabaseInstanceMethod
     "Saved."
   end
   
+  # Deletes a row from a table
+  #
+  # Returns a string.
   def delete
     table_name = self.class.to_s.pluralize.underscore
     
